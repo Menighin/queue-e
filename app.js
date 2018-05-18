@@ -7,7 +7,7 @@ import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
 // import favicon from 'serve-favicon';
 
-import index from './controllers/index';
+import setupRoutes from './controllers/routes';
 
 const app = express();
 const debug = Debug('test:app');
@@ -19,42 +19,41 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: false
+    extended: false
 }));
 
 app.use(cookieParser());
 app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true,
-  sourceMap: true
+    src: path.join(__dirname, 'public'),
+    dest: path.join(__dirname, 'public'),
+    sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+setupRoutes(app);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 /* eslint no-unused-vars: 0 */
 app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 // Handle uncaughtException
 process.on('uncaughtException', (err) => {
-  debug('Caught exception: %j', err);
-  process.exit(1);
+    debug('Caught exception: %j', err);
+    process.exit(1);
 });
 
 export default app;
