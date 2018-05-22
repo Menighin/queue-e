@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import formidable from 'express-formidable'
 import cookieParser from 'cookie-parser';
 import Debug from 'debug';
 import express from 'express';
@@ -17,10 +18,12 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//     extended: false
+// }));
+
+app.use(formidable());
 
 app.use(cookieParser());
 app.use(sassMiddleware({
