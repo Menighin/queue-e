@@ -1,6 +1,7 @@
 import express from 'express';
 import { spawn } from 'child_process';
 import QueueConfigurations from '../utils/QueueConfigurations';
+import formidable from 'formidable';
 
 const router = express.Router();
 
@@ -30,10 +31,14 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     let queueConfiguration = new QueueConfigurations();
     let dir = queueConfiguration.get('exe_directory');
-    let exe = req.fields.exe;
+    let exe = req.fields.exe || 'SolverDummy';
 
-    let p = spawn(`${dir}\\${exe}`, ['5']);
-    p.stdout.on('data', (data) => console.log(data.toString()));
+    try {
+        let p = spawn(`${dir}\\${exe}`, ['15']);
+        p.stdout.on('data', (data) => console.log(data.toString()));
+    } catch(e) {
+        console.error(e);
+    }
 
     res.write('Hi!');
 
