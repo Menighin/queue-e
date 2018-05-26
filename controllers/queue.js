@@ -11,11 +11,7 @@ router.get('/', (req, res) => {
 
     const executablePath = "D:\\Projects\\SolverDummy\\SolverDummy\\bin\\Release\\SolverDummy.exe";
 
-    let queueConfiguration = new QueueConfigurations();
-
-    console.log('QueueConfiguration');
-    console.log(queueConfiguration);
-    console.log(queueConfiguration.get('exe_directory'));
+    console.log(QueueConfigurations.get('exe_directory'));
 
     console.log('Spawning');
     let p = spawn(executablePath, ['5']);
@@ -30,22 +26,15 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    let queueConfiguration = new QueueConfigurations();
-    let dir = queueConfiguration.get('exe_directory');
+    let dir = QueueConfigurations.get('exe_directory');
     let program = req.fields.program;
+    let name = req.fields.name;
+    let logAll = req.fields.logAll || false;
     let parameters = req.fields.parameters.split(',');
 
     let runnable = `${dir}\\${program}`;
 
-    QueueService.add(runnable, parameters);
-
-    // try {
-    //     let p = spawn(`${dir}\\${program}`, parameters);
-    //     p.stdout.on('data', (data) => console.log(data.toString()));
-    // } catch(e) {
-    //     console.error(e);
-    // }
-
+    QueueService.add(name, runnable, parameters, logAll);
 
     res.json({success: true});
 });

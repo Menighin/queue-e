@@ -1,4 +1,3 @@
-
 const StatusEnum = Object.freeze({
     PENDING:  'pending',
     RUNNING:  'running',

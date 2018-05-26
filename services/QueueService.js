@@ -1,6 +1,7 @@
-import QueueConfiguration from '../utils/QueueConfigurations';
+import QueueConfigurations from '../utils/QueueConfigurations';
 import { spawn } from 'child_process';
 import StatusEnum from '../enums/StatusEnum';
+import Process from '../models/Process';
 
 let _runInParallel = false;
 let _queue = {};
@@ -12,28 +13,20 @@ class QueueService {
     static get isAsync() { return _async; }
 
     static readParameters() {
-        let queueConfiguration = new QueueConfigurations();
-        _runInParallel = queueConfiguration.get('runInParallel') || false;
+        _runInParallel = QueueConfigurations.get('runInParallel') || false;
     }
 
-    static add(runnable, parameters) {
+    static add(name, runnable, parameters) {
 
         this.readParameters();
 
         let now = new Date().getTime();
 
-        let process = {
-            id: now,
-            runnable: runnable,
-            parameters: parameters,
-            pid: null,
-            status: StatusEnum.PENDING,
-            next: null
-        };
+        let process = new Process(now, name, runnable, parameters);
 
         _queue[now] = process;
         
-        // If is running 
+        // If is running in parallel or it is the only queued proccess
         if (_runInParallel || Object.keys(_queue).length == 1) {
             this.run(now);
         }
