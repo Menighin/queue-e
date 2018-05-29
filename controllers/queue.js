@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
     let dir = QueueConfigurations.get('exe_directory');
     let program = req.fields.program;
     let name = req.fields.name;
-    let logAll = req.fields.logAll || false;
+    let logAll = req.fields.logAll === 'true';
     let parameters = req.fields.parameters.split(',');
 
     let runnable = `${dir}\\${program}`;
@@ -38,6 +38,5 @@ router.post('/', (req, res) => {
 
     res.json({success: true});
 });
-
 
 export default router;

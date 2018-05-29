@@ -2,6 +2,8 @@ import QueueConfigurations from '../utils/QueueConfigurations';
 import { spawn } from 'child_process';
 import StatusEnum from '../enums/StatusEnum';
 import Process from '../models/Process';
+import LogService from './LogService';
+import fs from 'fs';
 
 let _runInParallel = false;
 let _queue = {};
@@ -16,13 +18,13 @@ class QueueService {
         _runInParallel = QueueConfigurations.get('runInParallel') || false;
     }
 
-    static add(name, runnable, parameters) {
+    static add(name, runnable, parameters, logAll) {
 
         this.readParameters();
 
         let now = new Date().getTime();
 
-        let process = new Process(now, name, runnable, parameters);
+        let process = new Process(now, name, runnable, parameters, logAll);
 
         _queue[now] = process;
         
@@ -39,24 +41,40 @@ class QueueService {
     static run(id) {
         let self = this;
         let process = _queue[id];
+        process.startedOn = new Date().getTime();
 
         let p = spawn(process.runnable, process.parameters);
         process.pid = p.pid;
         process.status = StatusEnum.RUNNING;
 
-        p.stdout.on('data', (data) => console.log(data.toString()));
+        p.stdout.on('data', (data) => {
+            console.log(data.toString());
+            LogService.log(data.toString(), process);
+        });
         p.on('exit', (code) => self.finished(id, code));
-
     }
 
     static finished(id, code) {
         let finished = _queue[id];
+        finished.finishedOn = new Date().getTime();
+        finished.status = StatusEnum.FINISHED;
+
+        this.writeProcess(finished);
 
         let next = finished.next;
 
         delete _queue[id];
         if (next != null && !_runInParallel)
             this.run(next);
+    }
+
+    static writeProcess(process) {
+        let processDirectory = QueueConfigurations.get('process_directory');
+
+        if (!fs.existsSync(processDirectory))
+            fs.mkdirSync(processDirectory);
+        
+        fs.writeFileSync(`${processDirectory}\\${process.id}_${process.name}_process.json`, JSON.stringify(process));
     }
 }
 

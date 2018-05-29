@@ -1,3 +1,5 @@
 {
-    "exe_directory": "D:\\Projects\\SolverDummy\\SolverDummy\\bin\\Release"
+    "exe_directory": "D:\\Projects\\SolverDummy\\SolverDummy\\bin\\Release",
+    "logs_directory": "D:\\Projects\\queue_logs",
+    "process_directory": "D:\\Projects\\SolverDummy\\SolverDummy\\bin\\Release\\process"
 }
