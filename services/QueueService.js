@@ -3,6 +3,7 @@ import { spawn } from 'child_process';
 import StatusEnum from '../enums/StatusEnum';
 import Process from '../models/Process';
 import LogService from './LogService';
+import QueueProgress from '../sockets/QueueProgress';
 import fs from 'fs';
 
 let _runInParallel = false;
@@ -50,6 +51,7 @@ class QueueService {
         p.stdout.on('data', (data) => {
             console.log(data.toString());
             LogService.log(data.toString(), process);
+            QueueProgress.update(data.toString());
         });
         p.on('exit', (code) => self.finished(id, code));
     }

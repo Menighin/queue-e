@@ -2,4 +2,13 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}. It works!
+  p Welcome to #{title}. It works
+  div#test
+
+  script(src='/socket.io/socket.io.js')
+  script.
+    var socket = io('/queue-progress');
+    socket.on('update', function(data) {
+        document.getElementById('test').innerHTML += data + '<br>';
+    });
+    

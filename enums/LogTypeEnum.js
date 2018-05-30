@@ -1,9 +1,10 @@
 const LogTypeEnum = Object.freeze({
-    NONE:  '[N]',
+    NONE:  '[NONE]',
     DEBUG: '[DEBUG]',
     LOG:   '[LOG]',
     WARN:  '[WARN]',
     ERROR: '[ERROR]',
+    UPDATE: '[UPDATE]'
 });
 
 export { LogTypeEnum as default };

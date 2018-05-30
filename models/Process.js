@@ -54,6 +54,9 @@ class Process {
 
     get warnings() { return this._warnings; }
     set warnings(warnings) { this._warnings = warnings; }
+
+    get progress() { return this._progress; }
+    set progress(progress) { this._progress = progress; }
 }
 
 export { Process as default };
