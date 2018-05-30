@@ -4,12 +4,16 @@ import http from 'http';
 import io from 'socket.io';
 import QueueConfigurations from '../utils/QueueConfigurations';
 import QueueService from '../services/QueueService';
+import ProcessService from '../services/ProcessService';
 import formidable from 'formidable';
 
 const router = express.Router();
 
 /* GET index page. */
 router.get('/', (req, res) => {
+   
+    ProcessService.getAllProcesses();
+
     res.render('index', {
         title: 'Queue'
     });

@@ -5,10 +5,10 @@ block content
   p Welcome to #{title}. It works
   div#test
 
-  script(src='/socket.io/socket.io.js')
+  
   script.
-    var socket = io('/queue-progress');
-    socket.on('update', function(data) {
+    let socket = io('/queue-progress');
+    socket.on('update', (data) => {
         document.getElementById('test').innerHTML += data + '<br>';
     });
     
