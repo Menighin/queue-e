@@ -12,10 +12,11 @@ const router = express.Router();
 /* GET index page. */
 router.get('/', (req, res) => {
    
-    ProcessService.getAllProcesses();
+    let processes = ProcessService.getAllProcesses();
 
     res.render('index', {
-        title: 'Queue'
+        title: 'Queue',
+        processes
     });
 });
 

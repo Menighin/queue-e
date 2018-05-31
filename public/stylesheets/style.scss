@@ -1,12 +1,25 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 
-a {
-  color: red;
-}
+    .header-container {
+        .header {
+            background: #eee;
+            padding: 10px 20px;
+            text-align: center;
 
-h1 {
-    color: red;
+            .logo-container {
+                display: inline-block;
+            }
+        }
+    }
+
+    .content-container {
+
+        .index-page {
+
+        }
+    }
+
 }

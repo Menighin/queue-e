@@ -5,4 +5,11 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/socket.io/socket.io.js')
   body
-    block content
+    .header-container
+        .header
+            .logo-container
+                img(src='/images/logo.png')
+            
+
+    .content-container
+        block content
