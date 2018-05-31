@@ -3,10 +3,20 @@
   margin: 0;
   box-sizing: border-box; }
   * .header-container .header {
-    background: #eee;
+    background: #ddd;
     padding: 10px 20px;
     text-align: center; }
     * .header-container .header .logo-container {
       display: inline-block; }
+  * .content-container .index-page .processes-container {
+    background: #eee;
+    max-width: 900px;
+    padding: 10px;
+    margin: 0 auto; }
+    * .content-container .index-page .processes-container .process {
+      height: 100px;
+      background: #ddd;
+      margin: 5px;
+      padding: 10px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -5,7 +5,7 @@
 
     .header-container {
         .header {
-            background: #eee;
+            background: #ddd;
             padding: 10px 20px;
             text-align: center;
 
@@ -16,9 +16,20 @@
     }
 
     .content-container {
-
         .index-page {
+            .processes-container {
+                background: #eee;
+                max-width: 900px;
+                padding: 10px;
+                margin: 0 auto;
 
+                .process {
+                    height: 100px;
+                    background: #ddd;
+                    margin: 5px;
+                    padding: 10px;
+                }
+            }
         }
     }
 
