@@ -5,7 +5,9 @@ block content
     div.index-page
         .processes-container
             each p in processes
-                .process= p.name
+                .process
+                    .title= p.name
+                    
     
     script.
         let socket = io('/queue-progress');

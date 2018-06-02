@@ -57,6 +57,15 @@ class Process {
 
     get progress() { return this._progress; }
     set progress(progress) { this._progress = progress; }
+
+    get logSize() { return this._logSize; }
+    set logSize(logSize) { this._logSize = logSize; }
+
+    get inputSize() { return this._inputSize; }
+    set inputSize(inputSize) { this._inputSize = inputSize; }
+
+    get outputSize() { return this._outputSize; }
+    set outputSize(outputSize) { this._outputSize = outputSize; }
 }
 
 export { Process as default };

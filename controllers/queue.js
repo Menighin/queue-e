@@ -5,6 +5,7 @@ import io from 'socket.io';
 import QueueConfigurations from '../utils/QueueConfigurations';
 import QueueService from '../services/QueueService';
 import ProcessService from '../services/ProcessService';
+import LogService from '../services/LogService';
 import formidable from 'formidable';
 
 const router = express.Router();
@@ -19,6 +20,17 @@ router.get('/', (req, res) => {
         processes
     });
 });
+
+router.get('/test', (req, res) => {
+   
+    let processes = ProcessService.getAllProcesses();
+
+    res.render('index', {
+        title: 'Queue',
+        processes
+    });
+});
+
 
 router.post('/', (req, res) => {
     let dir = QueueConfigurations.get('exe_directory');

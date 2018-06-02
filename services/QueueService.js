@@ -1,4 +1,5 @@
 import QueueConfigurations from '../utils/QueueConfigurations';
+import FileSystemUtils from '../utils/FileSystemUtils';
 import { spawn } from 'child_process';
 import StatusEnum from '../enums/StatusEnum';
 import Process from '../models/Process';
@@ -61,6 +62,7 @@ class QueueService {
         finished.finishedOn = new Date().getTime();
         finished.status = StatusEnum.FINISHED;
 
+        this.updateFilesSize(finished);
         this.writeProcess(finished);
 
         let next = finished.next;
@@ -68,6 +70,12 @@ class QueueService {
         delete _queue[id];
         if (next != null && !_runInParallel)
             this.run(next);
+    }
+
+    static updateFilesSize(process) {
+        let logFilename = LogService.getLogFilename(process);
+        let stats = fs.statSync(logFilename);
+        process.logSize = FileSystemUtils.sizeToString(stats['size']);
     }
 
     static writeProcess(process) {
