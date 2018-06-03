@@ -22,13 +22,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/test', (req, res) => {
-   
-    let processes = ProcessService.getAllProcesses();
-
-    res.render('index', {
-        title: 'Queue',
-        processes
-    });
+    var file = 'D:\\Projects\\queue_logs\\1527778661680_TestDummy_log.txt';
+    res.download(file); // Set disposition and send it.
 });
 
 
