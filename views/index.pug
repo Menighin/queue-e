@@ -7,6 +7,8 @@ block content
             each p in processes
                 .process
                     .title= p.name
+                    .download-log 
+                        a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`) LOG
                     
     
     script.

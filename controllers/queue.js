@@ -21,12 +21,6 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/test', (req, res) => {
-    var file = 'D:\\Projects\\queue_logs\\1527778661680_TestDummy_log.txt';
-    res.download(file); // Set disposition and send it.
-});
-
-
 router.post('/', (req, res) => {
     let dir = QueueConfigurations.get('exe_directory');
     let program = req.body.program;
