@@ -1,7 +1,8 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; }
   * .header-container .header {
     background: #ddd;
     padding: 10px 20px;
@@ -10,13 +11,57 @@
       display: inline-block; }
   * .content-container .index-page .processes-container {
     background: #eee;
-    max-width: 900px;
+    max-width: 800px;
     padding: 10px;
     margin: 0 auto; }
     * .content-container .index-page .processes-container .process {
       height: 100px;
-      background: #ddd;
+      background: #fff;
+      border: 1px solid #ddd;
       margin: 5px;
-      padding: 10px; }
+      padding: 10px;
+      display: flex; }
+      * .content-container .index-page .processes-container .process.pending {
+        border-left: 7px solid #FCE100; }
+      * .content-container .index-page .processes-container .process.running {
+        border-left: 7px solid #0078D7; }
+      * .content-container .index-page .processes-container .process.canceled {
+        border-left: 7px solid #767676; }
+      * .content-container .index-page .processes-container .process.error {
+        border-left: 7px solid #F03A17; }
+      * .content-container .index-page .processes-container .process.finished {
+        border-left: 7px solid #7CD300; }
+      * .content-container .index-page .processes-container .process .info {
+        flex: 3;
+        position: relative;
+        border-right: 1px solid #ddd; }
+      * .content-container .index-page .processes-container .process .actions {
+        flex: 1;
+        position: relative; }
+        * .content-container .index-page .processes-container .process .actions .main-action {
+          text-align: center;
+          padding-top: 10px; }
+          * .content-container .index-page .processes-container .process .actions .main-action i {
+            font-size: 24px;
+            color: #8764B8;
+            transition: .1s all;
+            cursor: pointer; }
+            * .content-container .index-page .processes-container .process .actions .main-action i:hover {
+              color: #B146C2;
+              transform: scale(1.2); }
+        * .content-container .index-page .processes-container .process .actions .downloads {
+          width: 100%;
+          text-align: center;
+          position: absolute;
+          bottom: 0; }
+          * .content-container .index-page .processes-container .process .actions .downloads a {
+            font-size: 12px;
+            font-weight: normal;
+            color: #999;
+            text-decoration: none;
+            padding: 0 5px; }
+            * .content-container .index-page .processes-container .process .actions .downloads a:hover {
+              color: #666;
+              text-decoration: underline; }
 
 /*# sourceMappingURL=style.css.map */

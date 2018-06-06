@@ -5,10 +5,28 @@ block content
     div.index-page
         .processes-container
             each p in processes
-                .process
-                    .title= p.name
-                    .download-log 
-                        a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`) LOG
+                .process(class = p.status)
+                    .info
+                        .title= p.name
+                    .actions
+
+                        .main-action
+                            if p.status !== 'running' && p.status !== 'pending'
+                                i.fa.fa-sync-alt
+                            else
+                                i.fa.fa-ban
+
+
+                        .downloads
+                            a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
+                                i.fa.fa-download
+                                span  Input
+                            a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
+                                i.fa.fa-download
+                                span  Output
+                            a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
+                                i.fa.fa-download
+                                span  Log
                     
     
     script.

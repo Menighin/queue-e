@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
     .header-container {
         .header {
@@ -19,15 +20,85 @@
         .index-page {
             .processes-container {
                 background: #eee;
-                max-width: 900px;
+                max-width: 800px;
                 padding: 10px;
                 margin: 0 auto;
 
                 .process {
                     height: 100px;
-                    background: #ddd;
+                    background: #fff;
+                    border: 1px solid #ddd;
                     margin: 5px;
                     padding: 10px;
+                    display: flex;
+
+                    &.pending {
+                        border-left: 7px solid #FCE100;
+                    }
+
+                    &.running {
+                        border-left: 7px solid #0078D7;
+                    }
+
+                    &.canceled {
+                        border-left: 7px solid #767676;
+                    }
+
+                    &.error {
+                        border-left: 7px solid #F03A17;
+                    }
+
+                    &.finished {
+                        border-left: 7px solid #7CD300;
+                    }
+
+                    .info {
+                        flex: 3;
+                        position: relative;
+                        border-right: 1px solid #ddd;
+                    }
+
+                    .actions {
+                        flex: 1;
+                        position: relative;
+
+                        .main-action {
+                            text-align: center;
+                            padding-top: 10px;
+                            
+                            i {
+                                font-size: 24px;
+                                color: #8764B8;
+                                transition: .1s all;
+                                cursor: pointer;
+
+                                &:hover {
+                                    color: #B146C2;
+                                    transform: scale(1.2);
+                                }
+                            }
+                        }
+
+                        .downloads {
+                            width: 100%;
+                            text-align: center;
+                            position: absolute;
+                            bottom: 0;
+
+                            a {
+                                font-size: 12px;
+                                font-weight: normal;
+                                color: #999;
+                                text-decoration: none;
+                                padding: 0 5px;
+
+                                &:hover {
+                                    color: #666;
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
