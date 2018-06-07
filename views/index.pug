@@ -12,9 +12,9 @@ block content
 
                         .main-action
                             if p.status !== 'running' && p.status !== 'pending'
-                                i.fa.fa-sync-alt
+                                i.fa.fa-sync-alt(onclick=`restart(${p.id})`)
                             else
-                                i.fa.fa-ban
+                                i.fa.fa-ban(onclick=`cancel(${p.id})`)
 
 
                         .downloads
@@ -30,8 +30,30 @@ block content
                     
     
     script.
+
+        // Registering sockets to keep queue up to date
         let socket = io('/queue-progress');
         socket.on('update', (data) => {
             document.getElementById('test').innerHTML += data + '<br>';
         });
+        
+        // On cancel method
+        function cancel(id) {
+            fetch('queue/cancel', {
+                method: 'post',
+                body: JSON.stringify({id: id}),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => {
+                // set item as canceled
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+
+
     

@@ -26,9 +26,9 @@ class QueueService {
 
         let now = new Date().getTime();
 
-        let process = new Process(now, name, runnable, parameters, logAll);
+        let myProcess = new Process(now, name, runnable, parameters, logAll);
 
-        _queue[now] = process;
+        _queue[now] = myProcess;
         
         // If is running in parallel or it is the only queued proccess
         if (_runInParallel || Object.keys(_queue).length == 1) {
@@ -42,19 +42,24 @@ class QueueService {
 
     static run(id) {
         let self = this;
-        let process = _queue[id];
-        process.startedOn = new Date().getTime();
+        let myProcess = _queue[id];
+        myProcess.startedOn = new Date().getTime();
 
-        let p = spawn(process.runnable, process.parameters);
-        process.pid = p.pid;
-        process.status = StatusEnum.RUNNING;
+        let p = spawn(myProcess.runnable, myProcess.parameters);
+        myProcess.pid = p.pid;
+        myProcess.status = StatusEnum.RUNNING;
 
         p.stdout.on('data', (data) => {
             console.log(data.toString());
-            LogService.log(data.toString(), process);
+            LogService.log(data.toString(), myProcess);
             QueueProgress.update(data.toString());
         });
-        p.on('exit', (code) => self.finished(id, code));
+        p.on('exit', (code) => {
+            console.log('Process finished: ' + code);
+
+            if (code == 0) 
+                self.finished(id, code);
+        });
     }
 
     static finished(id, code) {
@@ -72,10 +77,41 @@ class QueueService {
             this.run(next);
     }
 
-    static updateFilesSize(process) {
-        let logFilename = LogService.getLogFilename(process);
+    static updateFilesSize(myProcess) {
+        let logFilename = LogService.getLogFilename(myProcess.id, myProcess.name);
         let stats = fs.statSync(logFilename);
-        process.logSize = FileSystemUtils.sizeToString(stats['size']);
+        myProcess.logSize = FileSystemUtils.sizeToString(stats['size']);
+    }
+
+    static cancelProcess(processId) {
+        let p = _queue[processId];
+        
+        // Kill running process and starts next
+        if (p.status === StatusEnum.RUNNING) {
+            process.kill(p.pid, 'SIGKILL');
+            if (p.next != null && !_runInParallel)
+                this.run(p.next);
+        }
+
+        // Remove pointer to this process and point it to next
+        if(p.status === StatusEnum.PENDING || p.status === StatusEnum.RUNNING) {
+            let beforeProcess = Object.values(_queue).find((process) => process.next == p.id);
+            if (beforeProcess !== undefined)
+                beforeProcess.next = p.next;
+        }
+
+        // Setting process options before writing
+        p.status = StatusEnum.CANCELED;
+        p.finishedOn = new Date().getTime();
+
+        // Saving and deleting process from queue
+        try {
+            this.updateFilesSize(p);
+            this.writeProcess(p);
+        }
+        finally {
+            delete _queue[processId];
+        }
     }
 
     static writeProcess(process) {
