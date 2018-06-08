@@ -1,11 +1,10 @@
 extends layout
 
 block content
-
     div.index-page
         .processes-container
             each p in processes
-                .process(class = p.status)
+                .process(id = `p-${p.id}`, class = p.status)
                     .info
                         .title= p.name
                     .actions
@@ -33,8 +32,12 @@ block content
 
         // Registering sockets to keep queue up to date
         let socket = io('/queue-progress');
-        socket.on('update', (data) => {
-            document.getElementById('test').innerHTML += data + '<br>';
+        socket.on('update', (p) => {
+            let div = document.getElementById(`p-${p.id}`);
+
+            div.classList.add(p.status);
+
+            console.log(p);
         });
         
         // On cancel method

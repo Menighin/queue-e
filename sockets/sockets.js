@@ -1,5 +1,5 @@
-import QueueProgress from './QueueProgress';
+import QueueSocket from './QueueSocket';
 
 export default function(io) {
-    QueueProgress.setup(io);
+    QueueSocket.setup(io);
 }

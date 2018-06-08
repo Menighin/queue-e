@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import StatusEnum from '../enums/StatusEnum';
 import Process from '../models/Process';
 import LogService from './LogService';
-import QueueProgress from '../sockets/QueueProgress';
+import QueueSocket from '../sockets/QueueSocket';
 import fs from 'fs';
 
 let _runInParallel = false;
@@ -52,7 +52,6 @@ class QueueService {
         p.stdout.on('data', (data) => {
             console.log(data.toString());
             LogService.log(data.toString(), myProcess);
-            QueueProgress.update(data.toString());
         });
         p.on('exit', (code) => {
             console.log('Process finished: ' + code);
@@ -108,6 +107,7 @@ class QueueService {
         try {
             this.updateFilesSize(p);
             this.writeProcess(p);
+            QueueSocket.update(p);
         }
         finally {
             delete _queue[processId];
