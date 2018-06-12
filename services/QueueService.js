@@ -38,6 +38,8 @@ class QueueService {
         if (_lastQueue != null)
             _lastQueue.next = now;
         _lastQueue = _queue[now];
+
+        QueueSocket.add(myProcess);
     }
 
     static run(id) {
@@ -112,6 +114,15 @@ class QueueService {
         finally {
             delete _queue[processId];
         }
+    }
+
+    static restartOldProcess(processId, processName) {
+        let processDirectory = QueueConfigurations.get('process_directory');
+        let processFilename = `${processDirectory}\\${processId}_${processName}_process.json`;
+
+        let process = Object.assign(new Process(), JSON.parse(fs.readFileSync(processFilename)));
+
+        this.add(process.name, process.runnable, process.parameters, process.logAll);
     }
 
     static writeProcess(process) {

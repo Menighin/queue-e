@@ -11,10 +11,9 @@ block content
 
                         .main-action
                             if p.status !== 'running' && p.status !== 'pending'
-                                i.fa.fa-sync-alt(onclick=`restart(${p.id})`)
+                                i.fa.fa-sync-alt(onclick=`restart(${p.id}, '${p.name}')`)
                             else
                                 i.fa.fa-ban(onclick=`cancel(${p.id})`)
-
 
                         .downloads
                             a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
@@ -32,12 +31,49 @@ block content
 
         // Registering sockets to keep queue up to date
         let socket = io('/queue-progress');
-        socket.on('update', (p) => {
-            let div = document.getElementById(`p-${p.id}`);
 
-            div.classList.add(p.status);
+        // On receiving an 'add' call from server
+        socket.on('add', (p) => {
+
+            let mainAction = `<i class="fa fa-ban" onclick="cancel(${p._id})"></i>`;
+            if (p._status !== 'running' && p._status !== 'pending')
+                mainAction = `<i class="fa fa-sync-alt" onclick="restart(${p._id}, ${p._name})"></i>`;
+
+            let processDiv = `
+                <div class="process ${p._status}" id="p-${p._id}">
+                    <div class="info">
+                        <div class="title">${p._name}</div>
+                    </div>
+                    <div class="actions">
+                        <div class="main-action">
+                            ${mainAction}
+                        </div>
+                        <div class="downloads">
+                            <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Input</span></a>
+                            <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Output</span></a>
+                            <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Log</span></a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            let processContainer = document.querySelector('.processes-container');
+            processContainer.innerHTML = processDiv + processContainer.innerHTML;
 
             console.log(p);
+        });
+
+        // On receiving an update from server
+        socket.on('update', (p) => {
+            let div = document.getElementById(`p-${p.id}`);
+            div.classList.add(p.status);
+
+            let mainAction = div.querySelector('.main-action');
+
+            if (p.status !== 'running' && p.status !== 'pending')
+                mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, ${p.name})"></i>`;
+            else
+                mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
         });
         
         // On cancel method
@@ -50,8 +86,20 @@ block content
                     'Content-Type': 'application/json'
                 },
             })
-            .then((response) => {
-                // set item as canceled
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+
+        // On restart method
+        function restart(id, name) {
+            fetch('queue/restart', {
+                method: 'post',
+                body: JSON.stringify({id: id, name: name}),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
             })
             .catch((err) => {
                 console.error(err);

@@ -40,4 +40,14 @@ router.post('/cancel', (req, res) => {
     res.json({success: true});
 });
 
+router.post('/cancel', (req, res) => {
+    QueueService.cancelProcess(req.body.id);
+    res.json({success: true});
+});
+
+router.post('/restart', (req, res) => {
+    QueueService.restartOldProcess(req.body.id, req.body.name);
+    res.json({success: true});
+});
+
 export default router;

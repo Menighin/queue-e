@@ -6,6 +6,11 @@ export default class QueueSocket {
         socket = io.of('/queue-progress');
     }
 
+    static add(process) {
+        if (socket == null) throw new Error("Socket emit called before setup");
+        socket.emit('add', process);
+    }
+
     static update(process, message) {
         if (socket == null) throw new Error("Socket emit called before setup");
 
