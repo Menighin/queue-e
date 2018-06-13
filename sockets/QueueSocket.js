@@ -16,6 +16,7 @@ export default class QueueSocket {
 
         let processUpdateDto = {
             id: process.id,
+            name: process.name,
             status: process.status,
             finishedOn: process.finishedOn,
             progress: process.progress,

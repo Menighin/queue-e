@@ -39,7 +39,8 @@ block content
             if (p._status !== 'running' && p._status !== 'pending')
                 mainAction = `<i class="fa fa-sync-alt" onclick="restart(${p._id}, ${p._name})"></i>`;
 
-            let processDiv = `
+            let processDiv = document.createElement('div');
+            processDiv.innerHTML = `
                 <div class="process ${p._status}" id="p-${p._id}">
                     <div class="info">
                         <div class="title">${p._name}</div>
@@ -58,20 +59,23 @@ block content
             `;
 
             let processContainer = document.querySelector('.processes-container');
-            processContainer.innerHTML = processDiv + processContainer.innerHTML;
+            processContainer.prepend(processDiv);
 
             console.log(p);
         });
 
         // On receiving an update from server
         socket.on('update', (p) => {
+
+            console.log(p);
+
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
 
             let mainAction = div.querySelector('.main-action');
 
             if (p.status !== 'running' && p.status !== 'pending')
-                mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, ${p.name})"></i>`;
+                mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, '${p.name}')"></i>`;
             else
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
         });
