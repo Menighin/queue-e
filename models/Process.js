@@ -56,7 +56,13 @@ class Process {
     set warnings(warnings) { this._warnings = warnings; }
 
     get progress() { return this._progress; }
-    set progress(progress) { this._progress = progress; }
+    set progress(progress) { 
+        let brackets = progress.match(/\[(.*?)\]/)[1].split('/');
+        this._progress = {
+            percent: (parseInt(brackets[0])) / parseInt(brackets[1]),
+            message: progress.split(']')[1]
+        };
+    }
 
     get logSize() { return this._logSize; }
     set logSize(logSize) { this._logSize = logSize; }

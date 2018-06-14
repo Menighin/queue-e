@@ -7,6 +7,8 @@ block content
                 .process(id = `p-${p.id}`, class = p.status)
                     .info
                         .title= p.name
+                        .progress
+                            span
                     .actions
 
                         .main-action
@@ -44,6 +46,7 @@ block content
                 <div class="process ${p._status}" id="p-${p._id}">
                     <div class="info">
                         <div class="title">${p._name}</div>
+                        <div class="progress"><span></span></div>
                     </div>
                     <div class="actions">
                         <div class="main-action">
@@ -78,6 +81,10 @@ block content
                 mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, '${p.name}')"></i>`;
             else
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
+
+            let spanUpdate = div.querySelector('.info .progress span');
+            spanUpdate.innerHTML = p.progress.percent + ' - ' + p.progress.message;
+            
         });
         
         // On cancel method

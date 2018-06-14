@@ -53,16 +53,19 @@ class QueueService {
         myProcess.status = StatusEnum.RUNNING;
 
         p.stdout.on('data', (dataByte) => {
-            let data = dataByte.toString();
+            let data = dataByte.toString().split('\n');
             console.log(data);
-            LogService.log(data, myProcess);
-            myProcess.progress = data;
 
-            // Emmit event to update queue status
-            if (data.indexOf(MessageTypeEnum.UPDATE) !== -1) {
-                myProcess.progress = data.substring(data.indexOf(MessageTypeEnum.UPDATE)).replace(MessageTypeEnum.UPDATE, '');
-                QueueSocket.update(myProcess);
-            }
+            data.forEach(d => {
+                LogService.log(d, myProcess);
+                
+                // Emmit event to update queue status
+                if (d.indexOf(MessageTypeEnum.UPDATE) !== -1) {
+                    myProcess.progress = d.substring(d.indexOf(MessageTypeEnum.UPDATE)).replace(MessageTypeEnum.UPDATE, '');
+                    QueueSocket.update(myProcess);
+                }
+            });
+            
         });
 
         p.on('exit', (code) => {
