@@ -8,7 +8,8 @@ block content
                     .info
                         .title= p.name
                         .progress-wrapper
-                            .progress(style='width: 30%')
+                            ol.progress
+
                     .actions
 
                         .main-action
@@ -46,7 +47,10 @@ block content
                 <div class="process ${p._status}" id="p-${p._id}">
                     <div class="info">
                         <div class="title">${p._name}</div>
-                        <div class="progress-wrapper"><div class="progress"></div></div>
+                        <div class="progress-wrapper">
+                            <ol class="progress">
+                            </ol>
+                        </div>
                     </div>
                     <div class="actions">
                         <div class="main-action">
@@ -83,7 +87,42 @@ block content
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
 
             let progress = div.querySelector('.info .progress-wrapper .progress');
-            progress.style.width = `${p.progress.percent * 100}%`;
+
+            if (p.progress) {
+                if (progress.childElementCount == 0) { // The step progress was not created yet
+                    for(let i = 0; i < p.progress.totalSteps; i++) {
+                        let li = document.createElement('li');
+                        li.style.width = `calc(100% / ${p.progress.totalSteps})`
+
+                        let name = document.createElement('span');
+                        name.classList.add('name');
+                        name.innerHTML = '&nbsp';
+
+                        let step = document.createElement('span');
+                        step.classList.add('step');
+
+                        li.appendChild(name);
+                        li.appendChild(step);
+                        
+                        progress.appendChild(li);
+                    }
+                }
+
+                // Update the step
+                let step = p.progress.step - 1;
+                progress.querySelectorAll('li').forEach((li, i) => {
+                    let name = li.querySelector('.name');
+
+                    if (i == step) {
+                        li.classList.add('active');
+                        name.innerHTML = p.progress.message;
+                    }
+                    else if (i < step) {
+                        li.classList.add('done');
+                        name.innerHTML ='&nbsp';
+                    }
+                });
+            }
             
         });
         
