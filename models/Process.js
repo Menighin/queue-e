@@ -59,7 +59,8 @@ class Process {
     set progress(progress) { 
         let brackets = progress.match(/\[(.*?)\]/)[1].split('/');
         this._progress = {
-            percent: (parseInt(brackets[0])) / parseInt(brackets[1]),
+            percent: (parseInt(brackets[0] - 1)) / parseInt(brackets[1]),
+            nextPercent: (parseInt(brackets[0])) / parseInt(brackets[1]),
             message: progress.split(']')[1]
         };
     }

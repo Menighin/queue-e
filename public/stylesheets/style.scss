@@ -56,6 +56,19 @@
                         flex: 3;
                         position: relative;
                         border-right: 1px solid #ddd;
+
+                        .progress-wrapper {
+                            width: 300px;
+                            background: #fafafa;
+                            border: 1px solid #ccc;
+
+                            .progress {
+                                height: 12px;
+                                background: green;
+                                transition: all .5ms;
+                            }
+                        }
+
                     }
 
                     .actions {

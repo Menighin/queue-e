@@ -7,8 +7,8 @@ block content
                 .process(id = `p-${p.id}`, class = p.status)
                     .info
                         .title= p.name
-                        .progress
-                            span
+                        .progress-wrapper
+                            .progress(style='width: 30%')
                     .actions
 
                         .main-action
@@ -46,7 +46,7 @@ block content
                 <div class="process ${p._status}" id="p-${p._id}">
                     <div class="info">
                         <div class="title">${p._name}</div>
-                        <div class="progress"><span></span></div>
+                        <div class="progress-wrapper"><div class="progress"></div></div>
                     </div>
                     <div class="actions">
                         <div class="main-action">
@@ -82,8 +82,8 @@ block content
             else
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
 
-            let spanUpdate = div.querySelector('.info .progress span');
-            spanUpdate.innerHTML = p.progress.percent + ' - ' + p.progress.message;
+            let progress = div.querySelector('.info .progress-wrapper .progress');
+            progress.style.width = `${p.progress.percent * 100}%`;
             
         });
         

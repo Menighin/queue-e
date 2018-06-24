@@ -35,6 +35,14 @@
         flex: 3;
         position: relative;
         border-right: 1px solid #ddd; }
+        * .content-container .index-page .processes-container .process .info .progress-wrapper {
+          width: 300px;
+          background: #fafafa;
+          border: 1px solid #ccc; }
+          * .content-container .index-page .processes-container .process .info .progress-wrapper .progress {
+            height: 12px;
+            background: green;
+            transition: all .3ms; }
       * .content-container .index-page .processes-container .process .actions {
         flex: 1;
         position: relative; }
