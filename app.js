@@ -1,11 +1,11 @@
-import bodyParser from 'body-parser';
-import formidable from 'express-formidable'
-import cookieParser from 'cookie-parser';
+//import bodyParser from 'body-parser';
+//import cookieParser from 'cookie-parser';
 import Debug from 'debug';
 import express from 'express';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
+import busboy from 'connect-busboy';
 // import favicon from 'serve-favicon';
 
 import setupRoutes from './controllers/routes';
@@ -19,13 +19,14 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(busboy());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({
+//     extended: false
+// }));
 
 
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(sassMiddleware({
     src: path.join(__dirname, 'public'),
     dest: path.join(__dirname, 'public'),

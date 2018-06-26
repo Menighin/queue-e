@@ -6,7 +6,6 @@ import QueueConfigurations from '../utils/QueueConfigurations';
 import QueueService from '../services/QueueService';
 import ProcessService from '../services/ProcessService';
 import LogService from '../services/LogService';
-import formidable from 'formidable';
 
 const router = express.Router();
 
@@ -22,15 +21,38 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    let dir = QueueConfigurations.get('exe_directory');
-    let program = req.body.program;
-    let name = req.body.name;
-    let logAll = req.body.logAll === 'true';
-    let parameters = req.body.parameters.split(',');
 
-    let runnable = `${dir}\\${program}`;
+    let body = {};
 
-    QueueService.add(name, runnable, parameters, logAll);
+    if (req.busboy) {
+        req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+            console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
+            file.on('data', function(data) {
+                console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+            });
+            file.on('end', function() {
+                console.log('File [' + fieldname + '] Finished');
+            });
+        });
+
+        req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+            body[key] = value;
+        });
+
+        req.busboy.on('finish', function(){
+            let dir = QueueConfigurations.get('exe_directory');
+            let program = body.program;
+            let name = body.name;
+            let logAll = body.logAll === 'true';
+            let parameters = body.parameters.split(',');
+
+            let runnable = `${dir}\\${program}`;
+
+            QueueService.add(name, runnable, parameters, logAll);
+        });
+
+        req.pipe(req.busboy);
+    }
 
     res.json({success: true});
 });
