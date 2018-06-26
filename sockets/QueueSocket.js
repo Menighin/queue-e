@@ -11,7 +11,7 @@ export default class QueueSocket {
         socket.emit('add', process);
     }
 
-    static update(process, message) {
+    static update(process, finished = false) {
         if (socket == null) throw new Error("Socket emit called before setup");
 
         let processUpdateDto = {
@@ -20,7 +20,7 @@ export default class QueueSocket {
             status: process.status,
             finishedOn: process.finishedOn,
             progress: process.progress,
-            message: message
+            finished: finished
         };     
 
         socket.emit('update', processUpdateDto);

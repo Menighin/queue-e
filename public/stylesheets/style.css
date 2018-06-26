@@ -43,7 +43,6 @@
             width: 100%;
             list-style: none;
             list-style-image: none;
-            margin: 20px 0 20px 0;
             padding: 0; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress li {
             float: left;
@@ -53,19 +52,20 @@
             display: block;
             vertical-align: bottom;
             text-align: center;
-            margin-bottom: 1em;
+            margin-bottom: 5px;
             color: black;
             opacity: 0.3; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .step {
             color: black;
-            border: 3px solid silver;
-            background-color: silver;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
             border-radius: 50%;
-            line-height: 1.2;
-            width: 1.2em;
-            height: 1.2em;
+            width: 16px;
+            height: 16px;
             display: inline-block;
-            z-index: 0; }
+            z-index: 0;
+            transition: all .3s 450ms; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .step span {
             opacity: 0.3; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .name,
@@ -74,23 +74,29 @@
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .step:before {
             content: "";
             display: block;
-            background-color: silver;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
             height: 6px;
-            width: 50%;
+            width: calc(50% - 6px);
             position: absolute;
-            bottom: 11px;
+            bottom: 9px;
             left: 0;
-            z-index: -1; }
+            z-index: -1;
+            transition: all .3s 218ms; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .step:after {
             content: "";
             display: block;
-            background-color: silver;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
             height: 6px;
-            width: 50%;
+            width: calc(50% - 6px);
             position: absolute;
-            bottom: 11px;
+            bottom: 9px;
             right: 0;
-            z-index: -1; }
+            z-index: -1;
+            transition: all .3s; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress li:first-of-type .step:before {
             display: none; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress li:last-of-type .step:after {
@@ -100,10 +106,7 @@
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .done .step:after,
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .step,
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .step:before {
-            background-color: yellowgreen; }
-          * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .done .step,
-          * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .step {
-            border: 3px solid yellowgreen; }
+            background-position: left center; }
       * .content-container .index-page .processes-container .process .actions {
         flex: 1;
         position: relative; }

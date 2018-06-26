@@ -71,8 +71,10 @@ class QueueService {
         p.on('exit', (code) => {
             console.log('Process finished: ' + code);
 
-            if (code == 0) 
+            if (code == 0) {
                 self.finished(id, code);
+                QueueSocket.update(myProcess, true);
+            }
         });
     }
 

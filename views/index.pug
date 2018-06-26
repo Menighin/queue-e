@@ -80,15 +80,21 @@ block content
             div.classList.add(p.status);
 
             let mainAction = div.querySelector('.main-action');
+            let progress = div.querySelector('.info .progress-wrapper .progress');
 
-            if (p.status !== 'running' && p.status !== 'pending')
+            if (p.status !== 'running' && p.status !== 'pending') {
+                // Changes icon to restart
                 mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, '${p.name}')"></i>`;
+
+                // Erases progress bar
+                progress.innerHTML = '';
+            }
             else
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
 
-            let progress = div.querySelector('.info .progress-wrapper .progress');
 
-            if (p.progress) {
+            // Making the progress step bar
+            if (p.progress && p.status === 'running') {
                 if (progress.childElementCount == 0) { // The step progress was not created yet
                     for(let i = 0; i < p.progress.totalSteps; i++) {
                         let li = document.createElement('li');
@@ -123,7 +129,6 @@ block content
                     }
                 });
             }
-            
         });
         
         // On cancel method
