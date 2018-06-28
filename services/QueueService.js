@@ -21,24 +21,22 @@ class QueueService {
         _runInParallel = QueueConfigurations.get('runInParallel') || false;
     }
 
-    static add(name, runnable, parameters, logAll) {
+    static add(name, runnable, parameters, logAll, id = new Date().getTime()) {
 
         this.readParameters();
 
-        let now = new Date().getTime();
+        let myProcess = new Process(id, name, runnable, parameters, logAll);
 
-        let myProcess = new Process(now, name, runnable, parameters, logAll);
-
-        _queue[now] = myProcess;
+        _queue[id] = myProcess;
         
         // If is running in parallel or it is the only queued proccess
         if (_runInParallel || Object.keys(_queue).length == 1) {
-            this.run(now);
+            this.run(id);
         }
 
         if (_lastQueue != null)
-            _lastQueue.next = now;
-        _lastQueue = _queue[now];
+            _lastQueue.next = id;
+        _lastQueue = _queue[id];
 
         QueueSocket.add(myProcess);
     }

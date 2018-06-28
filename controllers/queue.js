@@ -6,6 +6,7 @@ import QueueConfigurations from '../utils/QueueConfigurations';
 import QueueService from '../services/QueueService';
 import ProcessService from '../services/ProcessService';
 import LogService from '../services/LogService';
+import fs from 'fs';
 
 const router = express.Router();
 
@@ -23,16 +24,14 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
 
     let body = {};
+    let id = new Date().getTime();
+    let inputName = `${id}_input`;
 
     if (req.busboy) {
+
         req.busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-            console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
-            file.on('data', function(data) {
-                console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-            });
-            file.on('end', function() {
-                console.log('File [' + fieldname + '] Finished');
-            });
+            var ws = fs.createWriteStream(`${QueueConfigurations.get('exe_directory')}\\${inputName}`, {flags: "a"});
+            file.pipe(ws);
         });
 
         req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
@@ -45,6 +44,7 @@ router.post('/', (req, res) => {
             let name = body.name;
             let logAll = body.logAll === 'true';
             let parameters = body.parameters.split(',');
+            parameters.push(inputName);
 
             let runnable = `${dir}\\${program}`;
 
