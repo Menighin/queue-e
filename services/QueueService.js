@@ -133,9 +133,17 @@ class QueueService {
         let processDirectory = QueueConfigurations.get('process_directory');
         let processFilename = `${processDirectory}\\${processId}_${processName}_process.json`;
 
+        let id = new Date().getTime();
         let process = Object.assign(new Process(), JSON.parse(fs.readFileSync(processFilename)));
 
-        this.add(process.name, process.runnable, process.parameters, process.logAll);
+        // Copy input file with new name
+        let inputName = `${id}_input`;
+        let oldInputFile = `${process.id}_input`;
+
+        fs.createReadStream(`${QueueConfigurations.get('exe_directory')}\\${oldInputFile}`)
+            .pipe(`${QueueConfigurations.get('exe_directory')}\\${inputName}`);
+
+        this.add(process.name, process.runnable, process.parameters, process.logAll, id);
     }
 
     static writeProcess(process) {
