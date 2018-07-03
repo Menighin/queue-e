@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
 
             let runnable = `${dir}\\${program}`;
 
-            QueueService.add(name, runnable, parameters, logAll);
+            QueueService.add(name, runnable, parameters, logAll, id);
         });
 
         req.pipe(req.busboy);

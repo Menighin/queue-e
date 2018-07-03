@@ -1,4 +1,4 @@
-//import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 //import cookieParser from 'cookie-parser';
 import Debug from 'debug';
 import express from 'express';
@@ -20,10 +20,10 @@ app.set('view engine', 'pug');
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(busboy());
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//     extended: false
-// }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 
 //app.use(cookieParser());
