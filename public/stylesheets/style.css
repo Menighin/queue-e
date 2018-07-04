@@ -20,7 +20,13 @@
       border: 1px solid #ddd;
       margin: 5px;
       padding: 10px;
-      display: flex; }
+      display: flex;
+      transition: all .5s; }
+      * .content-container .index-page .processes-container .process.placeholder {
+        height: 0;
+        padding: 0;
+        margin: 0;
+        border: 0; }
       * .content-container .index-page .processes-container .process.pending {
         border-left: 7px solid #FCE100; }
       * .content-container .index-page .processes-container .process.running {

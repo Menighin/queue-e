@@ -31,6 +31,14 @@
                     margin: 5px;
                     padding: 10px;
                     display: flex;
+                    transition: all .5s;
+
+                    &.placeholder {
+                        height: 0;
+                        padding: 0;
+                        margin: 0;
+                        border: 0;
+                    }
 
                     &.pending {
                         border-left: 7px solid #FCE100;

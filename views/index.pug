@@ -3,6 +3,7 @@ extends layout
 block content
     div.index-page
         .processes-container
+            .process.placeholder
             each p in processes
                 .process(id = `p-${p.id}`, class = p.status)
                     .info
@@ -22,9 +23,12 @@ block content
                             a(href=`/process/downloadInput?id=${p.id}&name=${p.name}`)
                                 i.fa.fa-download
                                 span  Input
-                            a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
-                                i.fa.fa-download
-                                span  Output
+
+                            if p.status !== 'running' && p.status !== 'pending' && p.status !== 'canceled'
+                                a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
+                                    i.fa.fa-download
+                                    span  Output
+
                             a(href=`/process/downloadLog?id=${p.id}&name=${p.name}`)
                                 i.fa.fa-download
                                 span  Log
@@ -42,39 +46,45 @@ block content
             if (p._status !== 'running' && p._status !== 'pending')
                 mainAction = `<i class="fa fa-sync-alt" onclick="restart(${p._id}, ${p._name})"></i>`;
 
-            let processDiv = document.createElement('div');
+            let processDiv = document.querySelector('.process.placeholder');
+
             processDiv.innerHTML = `
-                <div class="process ${p._status}" id="p-${p._id}">
-                    <div class="info">
-                        <div class="title">${p._name}</div>
-                        <div class="progress-wrapper">
-                            <ol class="progress">
-                            </ol>
-                        </div>
+                <div class="info">
+                    <div class="title">${p._name}</div>
+                    <div class="progress-wrapper">
+                        <ol class="progress">
+                        </ol>
                     </div>
-                    <div class="actions">
-                        <div class="main-action">
-                            ${mainAction}
-                        </div>
-                        <div class="downloads">
-                            <a href="/process/downloadInput?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Input</span></a>
-                            <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Output</span></a>
-                            <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Log</span></a>
-                        </div>
+                </div>
+                <div class="actions">
+                    <div class="main-action">
+                        ${mainAction}
+                    </div>
+                    <div class="downloads">
+                        <a href="/process/downloadInput?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Input</span></a>
+                        <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Output</span></a>
+                        <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Log</span></a>
                     </div>
                 </div>
             `;
+            
+            // Update hidden placeholder div
+            processDiv.classList.add(p._status);
+            processDiv.classList.remove('placeholder');
+            processDiv.id = `p-${p._id}`;
+
+            // Create another placeholder div
+            let placeholderDiv = document.createElement('div');
+            placeholderDiv.classList.add('process', 'placeholder');
 
             let processContainer = document.querySelector('.processes-container');
-            processContainer.prepend(processDiv);
+            processContainer.prepend(placeholderDiv);
 
             console.log(p);
         });
 
         // On receiving an update from server
         socket.on('update', (p) => {
-
-            console.log(p);
 
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
