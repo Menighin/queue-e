@@ -11,6 +11,20 @@ block content
                         .progress-wrapper
                             ol.progress
 
+                        .dates-info
+                            span.date-info
+                                i.fa.fa-calendar-alt
+                                |  #{p.createdOnDate}
+                            span.date-info
+                                i.fa.fa-hourglass-start
+                                |  #{p.createdOnTime}
+                            span.date-info
+                                i.fa.fa-hourglass-half
+                                |  #{p.startedOnTime}
+                            span.date-info
+                                i.fa.fa-hourglass-end
+                                |  #{p.finishedOnTime}
+
                     .actions
 
                         .main-action

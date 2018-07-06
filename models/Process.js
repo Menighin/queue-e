@@ -42,12 +42,16 @@ class Process {
 
     get createdOn() { return this._createdOn; }
     set createdOn(createdOn) { this._createdOn = createdOn; }
+    get createdOnTime() { return this.formatDateToHour(this._createdOn); }
+    get createdOnDate() { return this.formatDate(this._createdOn); }
 
     get startedOn() { return this._startedOn; }
     set startedOn(startedOn) { this._startedOn = startedOn; }
+    get startedOnTime() { return this.formatDateToHour(this._startedOn); }
 
     get finishedOn() { return this._finishedOn; }
     set finishedOn(finishedOn) { this._finishedOn = finishedOn; }
+    get finishedOnTime() { return this.formatDateToHour(this._finishedOn); }
 
     get errors() { return this._errors; }
     set errors(errors) { this._errors = errors; }
@@ -73,6 +77,17 @@ class Process {
 
     get outputSize() { return this._outputSize; }
     set outputSize(outputSize) { this._outputSize = outputSize; }
+
+
+    formatDateToHour(mili) {
+        let d = new Date(mili);
+        return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+    }
+
+    formatDate(mili) {
+        let d = new Date(mili);
+        return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
+    }
 }
 
 export { Process as default };

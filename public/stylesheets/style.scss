@@ -65,6 +65,17 @@
                         position: relative;
                         border-right: 1px solid #ddd;
 
+                        .dates-info {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+
+                            .date-info {
+                                display: inline-block;
+                                margin: 0 8px;
+                            }
+                        }
+
                         .progress-wrapper {
                             width: 500px;
                             position: absolute;

@@ -41,6 +41,13 @@
         flex: 3;
         position: relative;
         border-right: 1px solid #ddd; }
+        * .content-container .index-page .processes-container .process .info .dates-info {
+          position: absolute;
+          top: 0;
+          right: 0; }
+          * .content-container .index-page .processes-container .process .info .dates-info .date-info {
+            display: inline-block;
+            margin: 0 8px; }
         * .content-container .index-page .processes-container .process .info .progress-wrapper {
           width: 500px;
           position: absolute;
