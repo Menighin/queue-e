@@ -7,7 +7,10 @@ block content
             each p in processes
                 .process(id = `p-${p.id}`, class = p.status)
                     .info
-                        .title= p.name
+                        .title
+                            span.runnable= p.runnableName
+                            br
+                            | #{p.name}
                         .progress-wrapper
                             ol.progress
 
@@ -55,20 +58,26 @@ block content
 
         // On receiving an 'add' call from server
         socket.on('add', (p) => {
-
             let mainAction = `<i class="fa fa-ban" onclick="cancel(${p._id})"></i>`;
             if (p._status !== 'running' && p._status !== 'pending')
                 mainAction = `<i class="fa fa-sync-alt" onclick="restart(${p._id}, ${p._name})"></i>`;
 
             let processDiv = document.querySelector('.process.placeholder');
 
+            let runnableSplit = p._runnable.split('\\');
+            let runnable = runnableSplit[runnableSplit.length - 1];
+
             processDiv.innerHTML = `
                 <div class="info">
-                    <div class="title">${p._name}</div>
+                    <div class="title">
+                        <span class="runnable">${runnable}</span><br />
+                        ${p._name}
+                    </div>
                     <div class="progress-wrapper">
                         <ol class="progress">
                         </ol>
                     </div>
+                    <div class="dates-info"></div>
                 </div>
                 <div class="actions">
                     <div class="main-action">
@@ -99,12 +108,13 @@ block content
 
         // On receiving an update from server
         socket.on('update', (p) => {
-
+            console.log(p);
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
 
             let mainAction = div.querySelector('.main-action');
             let progress = div.querySelector('.info .progress-wrapper .progress');
+            let datesInfo = div.querySelector('.dates-info');
 
             if (p.status !== 'running' && p.status !== 'pending') {
                 // Changes icon to restart
@@ -112,6 +122,14 @@ block content
 
                 // Erases progress bar
                 progress.innerHTML = '';
+
+                // Put the dates
+                datesInfo.innerHTML = `
+                    <span class="date-info"><i class="fa fa-calendar-alt"></i> ${p.createdOnDate}</span>
+                    <span class="date-info"><i class="fa fa-hourglass-start"></i> ${p.createdOnTime}</span>
+                    <span class="date-info"><i class="fa fa-hourglass-half"></i> ${p.startedOnTime}</span>
+                    <span class="date-info"><i class="fa fa-hourglass-end"></i> ${p.finishedOnTime}</span>
+                `;
             }
             else
                 mainAction.innerHTML = `<i class="fa fa-ban" onclick="cancel(${p.id})"></i>`;
@@ -183,6 +201,16 @@ block content
             .catch((err) => {
                 console.error(err);
             })
+        }
+
+        function formatDateToHour(mili) {
+            let d = new Date(mili);
+            return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function formatDate(mili) {
+            let d = new Date(mili);
+            return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
         }
 
 

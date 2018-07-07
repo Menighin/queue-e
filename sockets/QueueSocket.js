@@ -18,7 +18,10 @@ export default class QueueSocket {
             id: process.id,
             name: process.name,
             status: process.status,
-            finishedOn: process.finishedOn,
+            createdOnDate: process.createdOnDate,
+            createdOnTime: process.createdOnTime,
+            startedOnTime: process.startedOnTime,
+            finishedOnTime: process.finishedOnTime,
             progress: process.progress,
             finished: finished
         };     

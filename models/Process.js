@@ -26,6 +26,10 @@ class Process {
     set pid(pid) { this._pid = pid; }
 
     get runnable() { return this._runnable; }
+    get runnableName() { 
+        let run = this._runnable.split('\\');
+        return run[run.length - 1];
+    }
     set runnable(runnable) { this._runnable = runnable; }
 
     get parameters() { return this._parameters; }

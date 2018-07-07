@@ -6,6 +6,7 @@ import QueueConfigurations from '../utils/QueueConfigurations';
 import QueueService from '../services/QueueService';
 import ProcessService from '../services/ProcessService';
 import LogService from '../services/LogService';
+import Process from '../models/Process';
 import fs from 'fs';
 
 const router = express.Router();
