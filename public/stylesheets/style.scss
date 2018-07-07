@@ -51,6 +51,7 @@
 
                     &.running {
                         border-left: 7px solid #0078D7;
+                        height: 130px;
                     }
 
                     &.canceled {
@@ -94,8 +95,10 @@
                         }
 
                         .progress-wrapper {
-                            width: 500px;
+                            width: 100%;
                             position: absolute;
+                            bottom: 5px;
+                            margin: 0 auto;
                             z-index: 0;
                             font-size: 11px;
 
@@ -104,6 +107,12 @@
                                 list-style: none;
                                 list-style-image: none;
                                 padding: 0;
+                                opacity: 1;
+                                transition: opacity .7s;
+
+                                &.hidden {
+                                    opacity: 0;
+                                }
                             }
                             
                             .progress li {

@@ -12,7 +12,7 @@ block content
                             br
                             | #{p.name}
                         .progress-wrapper
-                            ol.progress
+                            ol.progress.hidden
 
                         .dates-info
                             span.date-info
@@ -27,6 +27,14 @@ block content
                             span.date-info
                                 i.fa.fa-hourglass-end
                                 |  #{p.finishedOnTime}
+
+                        //- .errors-warnings
+                        //-     span.errors
+                        //-         span= 0
+                        //-         | Errors
+                        //-     span.warnings
+                        //-         span= 0
+                        //-         | Warnings 
 
                     .actions
 
@@ -111,6 +119,7 @@ block content
             console.log(p);
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
+            if (p.status !== 'running') div.classList.remove('running');
 
             let mainAction = div.querySelector('.main-action');
             let progress = div.querySelector('.info .progress-wrapper .progress');
@@ -120,8 +129,8 @@ block content
                 // Changes icon to restart
                 mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, '${p.name}')"></i>`;
 
-                // Erases progress bar
-                progress.innerHTML = '';
+                // hides progress bar
+                progress.classList.add('hidden');
 
                 // Put the dates
                 datesInfo.innerHTML = `
@@ -154,6 +163,7 @@ block content
                         
                         progress.appendChild(li);
                     }
+                    progress.classList.remove('hidden');
                 }
 
                 // Update the step

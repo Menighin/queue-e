@@ -34,7 +34,8 @@
       * .content-container .index-page .processes-container .process.pending {
         border-left: 7px solid #FCE100; }
       * .content-container .index-page .processes-container .process.running {
-        border-left: 7px solid #0078D7; }
+        border-left: 7px solid #0078D7;
+        height: 130px; }
       * .content-container .index-page .processes-container .process.canceled {
         border-left: 7px solid #767676; }
       * .content-container .index-page .processes-container .process.error {
@@ -60,15 +61,21 @@
             * .content-container .index-page .processes-container .process .info .dates-info .date-info i {
               color: #444; }
         * .content-container .index-page .processes-container .process .info .progress-wrapper {
-          width: 500px;
+          width: 100%;
           position: absolute;
+          bottom: 5px;
+          margin: 0 auto;
           z-index: 0;
           font-size: 11px; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress {
             width: 100%;
             list-style: none;
             list-style-image: none;
-            padding: 0; }
+            padding: 0;
+            opacity: 1;
+            transition: opacity .7s; }
+            * .content-container .index-page .processes-container .process .info .progress-wrapper .progress.hidden {
+              opacity: 0; }
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress li {
             float: left;
             text-align: center;
