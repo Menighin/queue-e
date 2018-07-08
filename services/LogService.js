@@ -14,7 +14,7 @@ class LogService {
 
         if (process.logAll) return `${LogTypeEnum.NONE} ${message}`;
 
-        return null;
+        return message;
     }
 
     static getLogFilename(processId, processName) {

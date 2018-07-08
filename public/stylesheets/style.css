@@ -138,6 +138,25 @@
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .step,
           * .content-container .index-page .processes-container .process .info .progress-wrapper .progress .active .step:before {
             background-position: left center; }
+        * .content-container .index-page .processes-container .process .info .errors-warnings {
+          text-transform: uppercase;
+          font-size: 16px;
+          opacity: 1;
+          transition: opacity .7s;
+          position: absolute;
+          right: 0;
+          bottom: 10px; }
+          * .content-container .index-page .processes-container .process .info .errors-warnings span {
+            margin: 0 10px; }
+            * .content-container .index-page .processes-container .process .info .errors-warnings span > span {
+              font-size: 20px;
+              margin: 0 5px; }
+          * .content-container .index-page .processes-container .process .info .errors-warnings .errors {
+            color: tomato; }
+          * .content-container .index-page .processes-container .process .info .errors-warnings .warnings {
+            color: #e2ca00; }
+          * .content-container .index-page .processes-container .process .info .errors-warnings.hidden {
+            opacity: 0; }
       * .content-container .index-page .processes-container .process .actions {
         flex: 1;
         position: relative; }

@@ -196,7 +196,36 @@
                             .progress .active .step:before {
                                 background-position: left center;
                             }
-                            
+                        }
+
+                        .errors-warnings {
+                            text-transform: uppercase;
+                            font-size: 16px;
+                            opacity: 1;
+                            transition: opacity .7s;
+                            position: absolute;
+                            right: 0;
+                            bottom: 10px;
+
+                            span {
+                                margin: 0 10px;
+                                > span {
+                                    font-size: 20px;
+                                    margin: 0 5px;
+                                }
+                            }
+
+                            .errors {
+                                color: tomato;
+                            }
+
+                            .warnings {
+                                color: #e2ca00;
+                            }
+
+                            &.hidden {
+                                opacity: 0;
+                            }
                         }
 
                     }

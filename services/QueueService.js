@@ -50,6 +50,8 @@ class QueueService {
         myProcess.pid = p.pid;
         myProcess.status = StatusEnum.RUNNING;
 
+        LogService.log('Started running', myProcess);
+
         p.stdout.on('data', (dataByte) => {
             let data = dataByte.toString().split('\n');
             console.log(data);
@@ -68,18 +70,19 @@ class QueueService {
 
         p.on('exit', (code) => {
             console.log('Process finished: ' + code);
-
-            if (code == 0) {
-                self.finished(id, code);
-                QueueSocket.update(myProcess, true);
-            }
+            self.finished(id, code);
+            QueueSocket.update(myProcess, true);
         });
     }
 
     static finished(id, code) {
         let finished = _queue[id];
         finished.finishedOn = new Date().getTime();
-        finished.status = StatusEnum.FINISHED;
+
+        if (code === 0)
+            finished.status = StatusEnum.FINISHED;
+        else
+            finished.status = StatusEnum.ERROR;
 
         this.updateFilesSize(finished);
         this.writeProcess(finished);
@@ -93,8 +96,10 @@ class QueueService {
 
     static updateFilesSize(myProcess) {
         let logFilename = LogService.getLogFilename(myProcess.id, myProcess.name);
-        let stats = fs.statSync(logFilename);
-        myProcess.logSize = FileSystemUtils.sizeToString(stats['size']);
+        if (fs.existsSync(logFilename)) {
+            let stats = fs.statSync(logFilename);
+            myProcess.logSize = FileSystemUtils.sizeToString(stats['size']);
+        }
     }
 
     static cancelProcess(processId) {
@@ -140,8 +145,9 @@ class QueueService {
         let inputName = `${QueueConfigurations.get('exe_directory')}\\${id}_input`;
         let oldInputFile = `${QueueConfigurations.get('exe_directory')}\\${process.id}_input`;
 
-        fs.createReadStream(oldInputFile)
-            .pipe(fs.createWriteStream(inputName));
+        if (fs.existsSync(oldInputFile))
+            fs.createReadStream(oldInputFile)
+                .pipe(fs.createWriteStream(inputName));
 
         this.add(process.name, process.runnable, process.parameters, process.logAll, id);
     }
