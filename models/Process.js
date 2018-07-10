@@ -1,4 +1,6 @@
 import StatusEnum from '../enums/StatusEnum';
+import LogService from '../services/LogService';
+import MessageTypeEnum from '../enums/MessageTypeEnum';
 
 class Process {
 
@@ -92,6 +94,13 @@ class Process {
         let d = new Date(mili);
         return `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
     }
+
+    updateWithMessage(m) {
+        let messageType = LogService.getMessageTypeFrom(m);
+        if (messageType == MessageTypeEnum.ERROR) this.errors++;
+        if (messageType == MessageTypeEnum.WARN) this.warnings++;
+    }
+
 }
 
 export { Process as default };

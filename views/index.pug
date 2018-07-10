@@ -30,10 +30,10 @@ block content
 
                         .errors-warnings
                             span.errors
-                                span= 0
+                                span= p.errors
                                 | Errors
                             span.warnings
-                                span= 0
+                                span= p.warnings
                                 | Warnings 
 
                     .actions
@@ -86,6 +86,7 @@ block content
                         </ol>
                     </div>
                     <div class="dates-info"></div>
+                    <div class="errors-warnings hidden"></div>
                 </div>
                 <div class="actions">
                     <div class="main-action">
@@ -124,13 +125,22 @@ block content
             let mainAction = div.querySelector('.main-action');
             let progress = div.querySelector('.info .progress-wrapper .progress');
             let datesInfo = div.querySelector('.dates-info');
+            let errorsWarnings = div.querySelector('.errors-warnings');
 
             if (p.status !== 'running' && p.status !== 'pending') {
                 // Changes icon to restart
                 mainAction.innerHTML = `<i class="fa fa-sync-alt" onclick="restart(${p.id}, '${p.name}')"></i>`;
 
-                // hides progress bar
+                // Hides progress bar
                 progress.classList.add('hidden');
+
+                // Update and show errors and warnings count
+                errorsWarnings.innerHTML = `
+                    <span class="errors"><span>${p.errors}</span>Errors</span>
+                    <span class="warnings"><span>${p.warnings}</span>Warnings</span>
+                `;
+                errorsWarnings.classList.remove('hidden');
+
 
                 // Put the dates
                 datesInfo.innerHTML = `

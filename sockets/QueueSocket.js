@@ -23,7 +23,9 @@ export default class QueueSocket {
             startedOnTime: process.startedOnTime,
             finishedOnTime: process.finishedOnTime,
             progress: process.progress,
-            finished: finished
+            finished: finished,
+            errors: process.errors,
+            warnings: process.warnings
         };     
 
         socket.emit('update', processUpdateDto);

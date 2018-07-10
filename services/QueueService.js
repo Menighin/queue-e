@@ -58,7 +58,7 @@ class QueueService {
 
             data.forEach(d => {
                 LogService.log(d, myProcess);
-                
+                myProcess.updateWithMessage(d);
                 // Emmit event to update queue status
                 if (d.indexOf(MessageTypeEnum.UPDATE) !== -1) {
                     myProcess.progress = d.substring(d.indexOf(MessageTypeEnum.UPDATE)).replace(MessageTypeEnum.UPDATE, '');
