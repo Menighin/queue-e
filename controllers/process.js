@@ -4,6 +4,15 @@ import QueueConfigurations from '../utils/QueueConfigurations';
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+
+    let processId = req.query.id;
+
+    res.render('process', {
+        title: 'Queue',
+    });
+});
+
 router.get('/downloadLog', (req, res) => {
     let file = LogService.getLogFilename(req.query.id, req.query.name);
     res.download(file);

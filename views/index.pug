@@ -43,6 +43,10 @@ block content
                                 i.fa.fa-sync-alt(onclick=`restart(${p.id}, '${p.name}')`)
                             else
                                 i.fa.fa-ban(onclick=`cancel(${p.id})`)
+                        
+                        .details-action
+                            a(href=`/process?id=${p.id}`)
+                                i.fa.fa-info-circle(onclick=`cancel(${p.id})`)
 
                         .downloads
                             a(href=`/process/downloadInput?id=${p.id}&name=${p.name}`)

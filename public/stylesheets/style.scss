@@ -22,12 +22,13 @@
     }
 
     .content-container {
+        max-width: 800px;
+        margin: 0 auto;
+
         .index-page {
             .processes-container {
                 background: #eee;
-                max-width: 800px;
                 padding: 10px;
-                margin: 0 auto;
 
                 .process {
                     height: 100px;
@@ -236,11 +237,32 @@
 
                         .main-action {
                             text-align: center;
-                            padding-top: 10px;
+                            transition: all .7s;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            font-size: 14px;
                             
                             i {
-                                font-size: 24px;
                                 color: #8764B8;
+                                transition: .1s all;
+                                cursor: pointer;
+
+                                &:hover {
+                                    color: #B146C2;
+                                    transform: scale(1.2);
+                                }
+                            }
+                        }
+
+                        .details-action{
+                            text-align: center;
+                            transition: all .7s;
+                            padding-top: 10px;
+                            font-size: 32px;
+                            
+                            i {
+                                color: #aaa;
                                 transition: .1s all;
                                 cursor: pointer;
 
