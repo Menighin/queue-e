@@ -18,6 +18,10 @@ class Process {
         this.warnings = 0;
     }
 
+    static getFileName(id) {
+        return id + '_process.json';
+    }
+
     get id() { return this._id; }
     set id(id) { this._id = id; }
 

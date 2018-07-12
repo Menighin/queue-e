@@ -57,6 +57,8 @@ class QueueService {
             console.log(data);
 
             data.forEach(d => {
+                if (d.length === 0 || d === '\r' || d === '\n') return;
+                
                 LogService.log(d, myProcess);
                 myProcess.updateWithMessage(d);
                 // Emmit event to update queue status
@@ -136,7 +138,7 @@ class QueueService {
 
     static restartOldProcess(processId, processName) {
         let processDirectory = QueueConfigurations.get('process_directory');
-        let processFilename = `${processDirectory}\\${processId}_${processName}_process.json`;
+        let processFilename = `${processDirectory}\\${Process.getFileName(processId)}`;
 
         let id = new Date().getTime();
         let process = Object.assign(new Process(), JSON.parse(fs.readFileSync(processFilename)));
@@ -158,7 +160,7 @@ class QueueService {
         if (!fs.existsSync(processDirectory))
             fs.mkdirSync(processDirectory);
         
-        fs.writeFileSync(`${processDirectory}\\${process.id}_${process.name}_process.json`, JSON.stringify(process));
+        fs.writeFileSync(`${processDirectory}\\${Process.getFileName(process.id)}`, JSON.stringify(process));
     }
 }
 

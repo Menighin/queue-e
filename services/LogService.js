@@ -27,13 +27,13 @@ class LogService {
         return null;
     }
 
-    static getLogFilename(processId, processName) {
+    static getLogFilename(processId) {
         let logsDir = QueueConfigurations.get('logs_directory') || 'logs';
 
         if (!fs.existsSync(logsDir))
             fs.mkdirSync(logsDir);
         
-        return `${logsDir}\\${processId}_${processName}_log.txt`;
+        return `${logsDir}\\${processId}_log.txt`;
     }
 
 
@@ -43,7 +43,7 @@ class LogService {
 
         if (m == null) return;
 
-        let logFile = this.getLogFilename(process.id, process.name);
+        let logFile = this.getLogFilename(process.id);
 
         fs.appendFile(logFile, m, function(err) {
             if (err) throw err;

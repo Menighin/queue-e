@@ -36,4 +36,15 @@ export default class ProcessService {
         return processes;
     }
 
+    static getProcessById(id) {
+        let processDirectory = QueueConfigurations.get('process_directory');
+
+        let file = `${processDirectory}\\${Process.getFileName(id)}`;
+        if (!fs.existsSync(file)) return null;
+
+        let fileObj = JSON.parse(fs.readFileSync(file));
+
+        return Object.assign(new Process(), fileObj);
+    }
+
 }
