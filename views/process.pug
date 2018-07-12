@@ -6,4 +6,7 @@ block content
 
     .process-page
         .logs
-            
+            each l in logs
+                p(class = l.type)
+                    span= l.timestamp
+                    | #{l.message}

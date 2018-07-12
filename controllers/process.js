@@ -14,8 +14,18 @@ router.get('/', (req, res) => {
     let logFilename = LogService.getLogFilename(req.query.id);
 
     let logs = [];
-    if (fs.existsSync(logFilename))
-        logs = fs.readFileSync(logFilename).toString();
+    if (fs.existsSync(logFilename)) {
+        let logsStr = fs.readFileSync(logFilename).toString().split('\n');
+
+        logsStr.forEach(l => {
+            let logType = LogService.getLogTypeFrom(l);
+            logs.push({
+                timestamp: l.substring(0, 21),
+                message: l.replace(logType, '').substring(22), 
+                type: logType === null ? null : logType.replace(/[\[\]]/g,'').toLowerCase()
+            });
+        });
+    }
 
     res.render('process', {
         title: 'Queue',

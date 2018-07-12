@@ -201,5 +201,27 @@
               * .content-container .index-page .processes-container .process .actions .downloads a:hover {
                 color: #666;
                 text-decoration: underline; }
+    * .content-container .process-page .logs {
+      width: 100%;
+      background: #223;
+      padding: 20px 10px;
+      font-size: 12px; }
+      * .content-container .process-page .logs p {
+        font-family: monospace; }
+        * .content-container .process-page .logs p span {
+          color: #556;
+          font-family: monospace; }
+        * .content-container .process-page .logs p.none {
+          color: #666; }
+        * .content-container .process-page .logs p.log {
+          color: #aaa; }
+        * .content-container .process-page .logs p.debug {
+          color: dodgerblue; }
+        * .content-container .process-page .logs p.warn {
+          color: yellow; }
+        * .content-container .process-page .logs p.error {
+          color: tomato; }
+        * .content-container .process-page .logs p.update {
+          color: mediumseagreen; }
 
 /*# sourceMappingURL=style.css.map */

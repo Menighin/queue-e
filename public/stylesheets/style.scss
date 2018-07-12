@@ -296,6 +296,53 @@
                 }
             }
         }
+
+        .process-page {
+            .logs {
+                width: 100%;
+                background: #223;
+                padding: 20px 10px;
+                font-size: 12px;
+
+                p {
+                    font-family: monospace;
+
+                    span {
+                        color: #556;
+                        font-family: monospace;
+                    }
+
+                    &.none {
+                        color: #666;
+                    }
+
+                    &.log {
+                        color: #aaa;
+                    }
+
+                    &.debug {
+                        color: dodgerblue;
+                    }
+
+                    &.warn {
+                        color: yellow;
+                    }
+
+                    &.error {
+                        color: tomato;
+                    }
+
+                    &.update {
+                        color: mediumseagreen;
+                    }
+
+
+                }
+
+
+
+            }
+        }
     }
 
 }
