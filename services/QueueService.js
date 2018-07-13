@@ -5,6 +5,7 @@ import StatusEnum from '../enums/StatusEnum';
 import Process from '../models/Process';
 import LogService from './LogService';
 import QueueSocket from '../sockets/QueueSocket';
+import ProcessSocket from '../sockets/ProcessSocket';
 import MessageTypeEnum from '../enums/MessageTypeEnum';
 import fs from 'fs';
 
@@ -58,13 +59,13 @@ class QueueService {
 
             data.forEach(d => {
                 if (d.length === 0 || d === '\r' || d === '\n') return;
-                
+
                 LogService.log(d, myProcess);
                 myProcess.updateWithMessage(d);
                 // Emmit event to update queue status
                 if (d.indexOf(MessageTypeEnum.UPDATE) !== -1) {
                     myProcess.progress = d.substring(d.indexOf(MessageTypeEnum.UPDATE)).replace(MessageTypeEnum.UPDATE, '');
-                    QueueSocket.update(myProcess);
+                    ProcessSocket.update(myProcess);
                 }
             });
             
@@ -73,7 +74,7 @@ class QueueService {
         p.on('exit', (code) => {
             console.log('Process finished: ' + code);
             self.finished(id, code);
-            QueueSocket.update(myProcess, true);
+            ProcessSocket.update(myProcess, true);
         });
     }
 

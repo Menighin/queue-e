@@ -37,7 +37,6 @@ block content
                                 | Warnings 
 
                     .actions
-
                         .main-action
                             if p.status !== 'running' && p.status !== 'pending'
                                 i.fa.fa-sync-alt(onclick=`restart(${p.id}, '${p.name}')`)
@@ -46,7 +45,7 @@ block content
                         
                         .details-action
                             a(href=`/process?id=${p.id}`)
-                                i.fa.fa-info-circle(onclick=`cancel(${p.id})`)
+                                i.fa.fa-info-circle
 
                         .downloads
                             a(href=`/process/downloadInput?id=${p.id}&name=${p.name}`)
@@ -66,10 +65,11 @@ block content
     script.
 
         // Registering sockets to keep queue up to date
-        let socket = io('/queue-progress');
+        let queueSocket = io('/queue-progress');
+        let processSocket = io('/process-progress');
 
         // On receiving an 'add' call from server
-        socket.on('add', (p) => {
+        queueSocket.on('add', (p) => {
             let mainAction = `<i class="fa fa-ban" onclick="cancel(${p._id})"></i>`;
             if (p._status !== 'running' && p._status !== 'pending')
                 mainAction = `<i class="fa fa-sync-alt" onclick="restart(${p._id}, ${p._name})"></i>`;
@@ -96,6 +96,9 @@ block content
                     <div class="main-action">
                         ${mainAction}
                     </div>
+                    <div class="details-action">
+                        <a href="/process?id=${p._id}"><i class="fa fa-info-circle"></i></a>
+                    </div>
                     <div class="downloads">
                         <a href="/process/downloadInput?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Input</span></a>
                         <a href="/process/downloadLog?id=${p._id}&amp;name=${p._name}"><i class="fa fa-download"></i><span> Output</span></a>
@@ -120,7 +123,7 @@ block content
         });
 
         // On receiving an update from server
-        socket.on('update', (p) => {
+        processSocket.on('update', (p) => {
             console.log(p);
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
