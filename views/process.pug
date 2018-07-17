@@ -1,10 +1,23 @@
 extends layout
 
 block content
-    h1= process.name
-    h2= process.id
-
     .process-page
+        .title
+            h1= process.name
+            .downloads
+                a(href=`/process/downloadInput?id=${process.id}&name=${process.name}`)
+                    i.fa.fa-download
+                    span  Input
+
+                if process.status !== 'running' && process.status !== 'pending' && process.status !== 'canceled'
+                    a(href=`/process/downloadLog?id=${process.id}&name=${process.name}`)
+                        i.fa.fa-download
+                        span  Output
+
+                a(href=`/process/downloadLog?id=${process.id}&name=${process.name}`)
+                    i.fa.fa-download
+                    span  Log
+
         ul.logs
             each l in logs
                 li(class = l.type)

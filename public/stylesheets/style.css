@@ -201,6 +201,21 @@
               * .content-container .index-page .processes-container .process .actions .downloads a:hover {
                 color: #666;
                 text-decoration: underline; }
+    * .content-container .process-page .right {
+      float: right; }
+    * .content-container .process-page .title h1 {
+      display: inline-block; }
+    * .content-container .process-page .title .downloads {
+      display: inline-block; }
+      * .content-container .process-page .title .downloads a {
+        font-size: 12px;
+        font-weight: normal;
+        color: #999;
+        text-decoration: none;
+        padding: 0 5px; }
+        * .content-container .process-page .title .downloads a:hover {
+          color: #666;
+          text-decoration: underline; }
     * .content-container .process-page .logs {
       width: 100%;
       background: #223;

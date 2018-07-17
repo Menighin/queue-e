@@ -298,6 +298,35 @@
         }
 
         .process-page {
+
+            .right {
+                float: right;
+            }
+
+            .title {
+
+                h1 {
+                    display: inline-block;
+                }
+
+                .downloads {
+                    display: inline-block;
+
+                    a {
+                        font-size: 12px;
+                        font-weight: normal;
+                        color: #999;
+                        text-decoration: none;
+                        padding: 0 5px;
+
+                        &:hover {
+                            color: #666;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+
             .logs {
                 width: 100%;
                 background: #223;
