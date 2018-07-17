@@ -205,23 +205,24 @@
       width: 100%;
       background: #223;
       padding: 20px 10px;
-      font-size: 12px; }
-      * .content-container .process-page .logs p {
+      font-size: 12px;
+      list-style: none; }
+      * .content-container .process-page .logs li {
         font-family: monospace; }
-        * .content-container .process-page .logs p span {
+        * .content-container .process-page .logs li span {
           color: #556;
           font-family: monospace; }
-        * .content-container .process-page .logs p.none {
+        * .content-container .process-page .logs li.none {
           color: #666; }
-        * .content-container .process-page .logs p.log {
+        * .content-container .process-page .logs li.log {
           color: #aaa; }
-        * .content-container .process-page .logs p.debug {
+        * .content-container .process-page .logs li.debug {
           color: dodgerblue; }
-        * .content-container .process-page .logs p.warn {
+        * .content-container .process-page .logs li.warn {
           color: yellow; }
-        * .content-container .process-page .logs p.error {
+        * .content-container .process-page .logs li.error {
           color: tomato; }
-        * .content-container .process-page .logs p.update {
+        * .content-container .process-page .logs li.update {
           color: mediumseagreen; }
 
 /*# sourceMappingURL=style.css.map */

@@ -40,7 +40,11 @@ export default class ProcessService {
         let processDirectory = QueueConfigurations.get('process_directory');
 
         let file = `${processDirectory}\\${Process.getFileName(id)}`;
-        if (!fs.existsSync(file)) return null;
+
+        // If there's isn't a file for this process, it may be running now. Check the queue.
+        if (!fs.existsSync(file)) {
+            return QueueService.getProcessById(id);
+        }
 
         let fileObj = JSON.parse(fs.readFileSync(file));
 

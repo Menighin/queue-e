@@ -61,6 +61,7 @@ class QueueService {
                 if (d.length === 0 || d === '\r' || d === '\n') return;
 
                 LogService.log(d, myProcess);
+                ProcessSocket.appendLog(myProcess, LogService.getLogMessage(d, myProcess));
                 myProcess.updateWithMessage(d);
                 // Emmit event to update queue status
                 if (d.indexOf(MessageTypeEnum.UPDATE) !== -1) {
@@ -162,6 +163,12 @@ class QueueService {
             fs.mkdirSync(processDirectory);
         
         fs.writeFileSync(`${processDirectory}\\${Process.getFileName(process.id)}`, JSON.stringify(process));
+    }
+
+    static getProcessById(id) {
+        if (id in _queue)
+            return _queue[id];
+        return null;
     }
 }
 

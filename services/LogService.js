@@ -6,15 +6,17 @@ import fs from 'fs';
 class LogService {
 
     static getLogMessage(message, process) {
-        if (message.indexOf(MessageTypeEnum.LOG) !== -1) return message.replace(MessageTypeEnum.LOG, LogTypeEnum.LOG);
-        if (message.indexOf(MessageTypeEnum.DEBUG) !== -1) return message.replace(MessageTypeEnum.DEBUG, LogTypeEnum.DEBUG);
-        if (message.indexOf(MessageTypeEnum.WARN) !== -1) return message.replace(MessageTypeEnum.WARN, LogTypeEnum.WARN);
-        if (message.indexOf(MessageTypeEnum.ERROR) !== -1) return message.replace(MessageTypeEnum.ERROR, LogTypeEnum.ERROR);
-        if (message.indexOf(MessageTypeEnum.UPDATE) !== -1) return message.replace(MessageTypeEnum.UPDATE, LogTypeEnum.UPDATE);
+        let msg = LogService.getTimestamp() + ' ';
+        let gambs = msg;
+        if      (message.indexOf(MessageTypeEnum.LOG) !== -1)    msg += message.replace(MessageTypeEnum.LOG, LogTypeEnum.LOG);
+        else if (message.indexOf(MessageTypeEnum.DEBUG) !== -1)  msg += message.replace(MessageTypeEnum.DEBUG, LogTypeEnum.DEBUG);
+        else if (message.indexOf(MessageTypeEnum.WARN) !== -1)   msg += message.replace(MessageTypeEnum.WARN, LogTypeEnum.WARN);
+        else if (message.indexOf(MessageTypeEnum.ERROR) !== -1)  msg += message.replace(MessageTypeEnum.ERROR, LogTypeEnum.ERROR);
+        else if (message.indexOf(MessageTypeEnum.UPDATE) !== -1) msg += message.replace(MessageTypeEnum.UPDATE, LogTypeEnum.UPDATE);
 
-        if (process.logAll) return `${LogTypeEnum.NONE} ${message}`;
+        if (process.logAll && msg === gambs) msg += `${LogTypeEnum.NONE} ${message}`;
 
-        return message;
+        return msg;
     }
 
     static getMessageTypeFrom(m) {
@@ -47,12 +49,11 @@ class LogService {
         return `${logsDir}\\${processId}_log.txt`;
     }
 
-
     static log(message, process) {
 
         if (message == null) return;
 
-        let m = `${LogService.getTimestamp()} ${this.getLogMessage(message, process)}\n`;
+        let m = `${this.getLogMessage(message, process)}\n`;
 
         if (m == null) return;
 

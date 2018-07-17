@@ -5,8 +5,31 @@ block content
     h2= process.id
 
     .process-page
-        .logs
+        ul.logs
             each l in logs
-                p(class = l.type)
+                li(class = l.type)
                     span= l.timestamp
                     | #{l.message}
+
+    script.
+
+        let PROCESS_ID = #{process.id};
+
+        // Registering sockets
+        let processSocket = io('/process-progress');
+
+        processSocket.on('appendLog', (p) => {
+
+            console.log(p);
+
+            if (p.id === PROCESS_ID) {
+
+                let logsDiv = document.querySelector('.process-page .logs');
+
+                let li = document.createElement('li');
+                li.classList.add(p.log.type);
+                li.innerHTML = `<span>${p.log.timestamp}</span> ${p.log.message}`;
+
+                logsDiv.appendChild(li);
+            }
+        });
