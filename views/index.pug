@@ -124,7 +124,6 @@ block content
 
         // On receiving an update from server
         processSocket.on('update', (p) => {
-            console.log(p);
             let div = document.getElementById(`p-${p.id}`);
             div.classList.add(p.status);
             if (p.status !== 'running') div.classList.remove('running');

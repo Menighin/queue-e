@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .process-page
+    .process-page(id = `p-${process.id}`)
         .title
             h1= process.name
             .downloads
@@ -18,6 +18,10 @@ block content
                     i.fa.fa-download
                     span  Log
 
+        .info
+            .progress-wrapper
+                ol.progress
+
         ul.logs
             each l in logs
                 li(class = l.type)
@@ -33,8 +37,6 @@ block content
 
         processSocket.on('appendLog', (p) => {
 
-            console.log(p);
-
             if (p.id === PROCESS_ID) {
 
                 let logsDiv = document.querySelector('.process-page .logs');
@@ -44,5 +46,62 @@ block content
                 li.innerHTML = `<span>${p.log.timestamp}</span> ${p.log.message}`;
 
                 logsDiv.appendChild(li);
+            }
+        });
+
+        // On receiving an update from server
+        processSocket.on('update', (p) => {
+
+            if (p.id !== PROCESS_ID) return;
+
+            let div = document.getElementById(`p-${p.id}`);
+            div.classList.add(p.status);
+            if (p.status !== 'running') div.classList.remove('running');
+
+            let progress = div.querySelector('.info .progress-wrapper .progress');
+
+            if (p.status !== 'running' && p.status !== 'pending') {
+
+                // Hides progress bar
+                //- progress.classList.add('hidden');
+            }
+
+
+            // Making the progress step bar
+            if (p.progress && p.status === 'running') {
+                if (progress.childElementCount == 0) { // The step progress was not created yet
+                    for(let i = 0; i < p.progress.totalSteps; i++) {
+                        let li = document.createElement('li');
+                        li.style.width = `calc(100% / ${p.progress.totalSteps})`
+
+                        let name = document.createElement('span');
+                        name.classList.add('name');
+                        name.innerHTML = '&nbsp';
+
+                        let step = document.createElement('span');
+                        step.classList.add('step');
+
+                        li.appendChild(name);
+                        li.appendChild(step);
+                        
+                        progress.appendChild(li);
+                    }
+                    progress.classList.remove('hidden');
+                }
+
+                // Update the step
+                let step = p.progress.step - 1;
+                progress.querySelectorAll('li').forEach((li, i) => {
+                    let name = li.querySelector('.name');
+
+                    if (i == step) {
+                        li.classList.add('active');
+                        name.innerHTML = p.progress.message;
+                    }
+                    else if (i < step) {
+                        li.classList.add('done');
+                        name.innerHTML ='&nbsp';
+                    }
+                });
             }
         });

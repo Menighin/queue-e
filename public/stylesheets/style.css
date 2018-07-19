@@ -201,43 +201,126 @@
               * .content-container .index-page .processes-container .process .actions .downloads a:hover {
                 color: #666;
                 text-decoration: underline; }
-    * .content-container .process-page .right {
-      float: right; }
-    * .content-container .process-page .title h1 {
-      display: inline-block; }
-    * .content-container .process-page .title .downloads {
-      display: inline-block; }
-      * .content-container .process-page .title .downloads a {
+    * .content-container .process-page {
+      position: relative; }
+      * .content-container .process-page .right {
+        float: right; }
+      * .content-container .process-page .title h1 {
+        display: inline-block; }
+      * .content-container .process-page .title .downloads {
+        display: inline-block; }
+        * .content-container .process-page .title .downloads a {
+          font-size: 12px;
+          font-weight: normal;
+          color: #999;
+          text-decoration: none;
+          padding: 0 5px; }
+          * .content-container .process-page .title .downloads a:hover {
+            color: #666;
+            text-decoration: underline; }
+      * .content-container .process-page .info {
+        height: 300px;
+        position: relative; }
+        * .content-container .process-page .info .progress-wrapper {
+          width: 100%;
+          position: absolute;
+          bottom: 5px;
+          margin: 0 auto;
+          z-index: 0;
+          font-size: 11px; }
+          * .content-container .process-page .info .progress-wrapper .progress {
+            width: 100%;
+            list-style: none;
+            list-style-image: none;
+            padding: 0;
+            opacity: 1;
+            transition: opacity .7s; }
+            * .content-container .process-page .info .progress-wrapper .progress.hidden {
+              opacity: 0; }
+          * .content-container .process-page .info .progress-wrapper .progress li {
+            float: left;
+            text-align: center;
+            position: relative; }
+          * .content-container .process-page .info .progress-wrapper .progress .name {
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+            color: #aaa;
+            opacity: 0.3; }
+          * .content-container .process-page .info .progress-wrapper .progress .step {
+            color: black;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            z-index: 0;
+            transition: all .3s 450ms; }
+          * .content-container .process-page .info .progress-wrapper .progress .step span {
+            opacity: 0.3; }
+          * .content-container .process-page .info .progress-wrapper .progress .active .name,
+          * .content-container .process-page .info .progress-wrapper .progress .active .step span {
+            opacity: 1; }
+          * .content-container .process-page .info .progress-wrapper .progress .step:before {
+            content: "";
+            display: block;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
+            height: 6px;
+            width: calc(50% - 6px);
+            position: absolute;
+            bottom: 9px;
+            left: 0;
+            z-index: -1;
+            transition: all .3s 218ms; }
+          * .content-container .process-page .info .progress-wrapper .progress .step:after {
+            content: "";
+            display: block;
+            background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+            background-size: 200% 200%;
+            background-position: right center;
+            height: 6px;
+            width: calc(50% - 6px);
+            position: absolute;
+            bottom: 9px;
+            right: 0;
+            z-index: -1;
+            transition: all .3s; }
+          * .content-container .process-page .info .progress-wrapper .progress li:first-of-type .step:before {
+            display: none; }
+          * .content-container .process-page .info .progress-wrapper .progress li:last-of-type .step:after {
+            display: none; }
+          * .content-container .process-page .info .progress-wrapper .progress .done .step,
+          * .content-container .process-page .info .progress-wrapper .progress .done .step:before,
+          * .content-container .process-page .info .progress-wrapper .progress .done .step:after,
+          * .content-container .process-page .info .progress-wrapper .progress .active .step,
+          * .content-container .process-page .info .progress-wrapper .progress .active .step:before {
+            background-position: left center; }
+      * .content-container .process-page .logs {
+        width: 100%;
+        background: #223;
+        padding: 20px 10px;
         font-size: 12px;
-        font-weight: normal;
-        color: #999;
-        text-decoration: none;
-        padding: 0 5px; }
-        * .content-container .process-page .title .downloads a:hover {
-          color: #666;
-          text-decoration: underline; }
-    * .content-container .process-page .logs {
-      width: 100%;
-      background: #223;
-      padding: 20px 10px;
-      font-size: 12px;
-      list-style: none; }
-      * .content-container .process-page .logs li {
-        font-family: monospace; }
-        * .content-container .process-page .logs li span {
-          color: #556;
+        list-style: none; }
+        * .content-container .process-page .logs li {
           font-family: monospace; }
-        * .content-container .process-page .logs li.none {
-          color: #666; }
-        * .content-container .process-page .logs li.log {
-          color: #aaa; }
-        * .content-container .process-page .logs li.debug {
-          color: dodgerblue; }
-        * .content-container .process-page .logs li.warn {
-          color: yellow; }
-        * .content-container .process-page .logs li.error {
-          color: tomato; }
-        * .content-container .process-page .logs li.update {
-          color: mediumseagreen; }
+          * .content-container .process-page .logs li span {
+            color: #556;
+            font-family: monospace; }
+          * .content-container .process-page .logs li.none {
+            color: #666; }
+          * .content-container .process-page .logs li.log {
+            color: #aaa; }
+          * .content-container .process-page .logs li.debug {
+            color: dodgerblue; }
+          * .content-container .process-page .logs li.warn {
+            color: yellow; }
+          * .content-container .process-page .logs li.error {
+            color: tomato; }
+          * .content-container .process-page .logs li.update {
+            color: mediumseagreen; }
 
 /*# sourceMappingURL=style.css.map */

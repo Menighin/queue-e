@@ -299,6 +299,8 @@
 
         .process-page {
 
+            position: relative;
+
             .right {
                 float: right;
             }
@@ -325,6 +327,117 @@
                         }
                     }
                 }
+            }
+
+            .info {
+               
+                height: 100px;
+                position: relative;
+
+                .progress-wrapper {
+                    width: 100%;
+                    position: absolute;
+                    top: 20px;
+                    margin: 0 auto;
+                    z-index: 0;
+                    font-size: 11px;
+
+                    .progress {
+                        width: 100%;
+                        list-style: none;
+                        list-style-image: none;
+                        padding: 0;
+                        opacity: 1;
+                        transition: opacity .7s;
+
+                        &.hidden {
+                            opacity: 0;
+                        }
+                    }
+                    
+                    .progress li {
+                        float: left;
+                        text-align: center;
+                        position: relative;
+                    }
+                    
+                    .progress .name {
+                        display: block;
+                        text-align: center;
+                        margin-bottom: 5px;
+                        color: #aaa;
+                        opacity: 0.3;
+                    }
+                    
+                    .progress .step {
+                        color: black;
+                        background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+                        background-size: 200% 200%;
+                        background-position: right center;
+                        border-radius: 50%;
+                        width: 16px;
+                        height: 16px;
+                        display: inline-block;
+                        z-index: 0;
+                        transition: all .3s 450ms;
+                    }
+                    
+                    .progress .step span {
+                        opacity: 0.3;
+                    }
+                    
+                    .progress .active .name,
+                    .progress .active .step span {
+                        opacity: 1;
+                    }
+                    
+                    .progress .step:before {
+                        content: "";
+                        display: block;
+                        background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+                        background-size: 200% 200%;
+                        background-position: right center;
+                        height: 6px;
+                        width: calc(50% - 6px);
+                        position: absolute;
+                        bottom: 9px;
+                        left: 0;
+                        z-index: -1;
+                        transition: all .3s 218ms;
+                    }
+                    
+                    .progress .step:after {
+                        content: "";
+                        display: block;
+                        background: linear-gradient(to right, yellowgreen 50%, silver 50%);
+                        background-size: 200% 200%;
+                        background-position: right center;
+                        height: 6px;
+                        width: calc(50% - 6px);
+                        position: absolute;
+                        bottom: 9px;
+                        right: 0;
+                        z-index: -1;
+                        transition: all .3s;
+                    }
+                    
+                    .progress li:first-of-type .step:before {
+                        display: none;
+                    }
+                    
+                    .progress li:last-of-type .step:after {
+                        display: none;
+                    }
+                    
+                    .progress .done .step,
+                    .progress .done .step:before,
+                    .progress .done .step:after,
+                    .progress .active .step,
+                    .progress .active .step:before {
+                        background-position: left center;
+                    }
+                }
+
             }
 
             .logs {
