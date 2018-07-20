@@ -219,12 +219,12 @@
             color: #666;
             text-decoration: underline; }
       * .content-container .process-page .info {
-        height: 300px;
+        height: 100px;
         position: relative; }
         * .content-container .process-page .info .progress-wrapper {
           width: 100%;
           position: absolute;
-          bottom: 5px;
+          top: 20px;
           margin: 0 auto;
           z-index: 0;
           font-size: 11px; }

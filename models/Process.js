@@ -77,6 +77,21 @@ class Process {
             totalSteps: parseInt(brackets[1]),
             message: progress.split(']')[1]
         };
+
+        this.progressHistory = this._progress;
+    }
+
+    get progressHistory() { return this._progressHistory; }
+    set progressHistory(progress) {
+        if (typeof this._progressHistory === 'undefined') {
+            this._progressHistory = [];
+            for (var i = 0; i < progress.totalSteps; i++)
+                this._progressHistory.push({message: null, timestamp: null})
+        }
+        this._progressHistory[progress.step - 1] = {
+            message: progress.message,
+            timestamp: new Date().getTime()
+        };
     }
 
     get logSize() { return this._logSize; }
