@@ -21,6 +21,14 @@ block content
         .info
             .progress-wrapper
                 ol.progress
+            
+            - var totalMili = process.finishedOn - process.progressHistory[0].timestamp
+            if process.status === 'finished'
+                .progress-history
+                    - for(var i = 0; i < process.progressHistory.length; i++) {
+                        - var percent = (i != process.progressHistory.length - 1 ? (process.progressHistory[i+1].timestamp - process.progressHistory[i].timestamp) / totalMili : (process.finishedOn - process.progressHistory[i].timestamp) / totalMili ) * 100
+                        .timeslice(class=`t${i+1}`, title = process.progressHistory[i].message, style=`width:${percent}%`)= process.progressHistory[i].message
+                    - }
 
         ul.logs
             each l in logs

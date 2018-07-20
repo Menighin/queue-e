@@ -299,6 +299,13 @@
           * .content-container .process-page .info .progress-wrapper .progress .active .step,
           * .content-container .process-page .info .progress-wrapper .progress .active .step:before {
             background-position: left center; }
+        * .content-container .process-page .info .progress-history {
+          width: 500px;
+          background: #777;
+          height: 50px; }
+          * .content-container .process-page .info .progress-history .timeslice {
+            float: left;
+            background: tomato; }
       * .content-container .process-page .logs {
         width: 100%;
         background: #223;

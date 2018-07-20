@@ -438,6 +438,17 @@
                     }
                 }
 
+                .progress-history {
+                    width: 500px;
+                    background: #777;
+                    height: 50px;
+
+                    .timeslice {
+                        float: left;
+                        background: tomato;
+                    }
+                }
+
             }
 
             .logs {
