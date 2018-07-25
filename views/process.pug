@@ -22,12 +22,13 @@ block content
             .progress-wrapper
                 ol.progress
             
-            - var totalMili = process.finishedOn - process.progressHistory[0].timestamp
-            - var start = new Date(process.progressHistory[0].timestamp)
-            - var end = new Date(process.finishedOn)
-            - var histories = process.progressHistory.filter(p => p.timestamp != null)
-            .progress-history
+            .progress-history(class = process.status !== 'running' && process.status !== 'pending' ? 'active' : '')
                 if process.status !== 'running' && process.status !== 'pending'
+                    - var totalMili = process.finishedOn - process.progressHistory[0].timestamp
+                    - var start = new Date(process.progressHistory[0].timestamp)
+                    - var end = new Date(process.finishedOn)
+                    - var histories = process.progressHistory.filter(p => p.timestamp != null)
+
                     span.start-time= `${start.getHours().toString().padStart('0', 2)}:${start.getMinutes().toString().padStart('0', 2)}:${start.getSeconds().toString().padStart('0', 2)}.${start.getMilliseconds().toString().padStart('0', 2)}` 
                     span.time-spent= process.timeSpent
                     span.end-time= `${end.getHours().toString().padStart('0', 2)}:${end.getMinutes().toString().padStart('0', 2)}:${end.getSeconds().toString().padStart('0', 2)}.${end.getMilliseconds().toString().padStart('0', 2)}` 
