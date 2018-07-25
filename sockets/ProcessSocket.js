@@ -22,7 +22,9 @@ export default class QueueSocket {
             progress: process.progress,
             finished: finished,
             errors: process.errors,
-            warnings: process.warnings
+            warnings: process.warnings,
+            progressHistory: process.progressHistory,
+            finishedOn: process.finishedOn
         };     
 
         socket.emit('update', processUpdateDto);
@@ -39,7 +41,7 @@ export default class QueueSocket {
                 timestamp: log.substring(0, 21),
                 message: log.replace(logType, '').substring(22), 
                 type: logType === null ? null : logType.replace(/[\[\]]/g,'').toLowerCase()
-            }
+            },
         };
 
         socket.emit('appendLog', processDto);

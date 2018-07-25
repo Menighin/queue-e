@@ -94,6 +94,28 @@ class Process {
         };
     }
 
+    get timeSpent() {
+        let start = this.progressHistory[0].timestamp;
+        let end = this.finishedOn;
+        let diff = end - start;
+        let timeSpent = '';
+
+        if (diff >= 1000 * 60 * 60) { // more than hours
+            timeSpent += `${parseInt(diff / (1000 * 60 * 60)).toString().padStart('0', 2)}h`;
+            diff -= parseInt(diff / (1000 * 60 * 60));
+        }
+
+        if (diff >= 1000 * 60) { // more than minutes
+            timeSpent += `${parseInt(diff / (1000 * 60)).toString().padStart('0', 2)}m`;
+            diff -= parseInt(diff / (1000 * 60));
+        }
+
+        timeSpent += `${parseInt(diff / 1000).toString().padStart('0', 2)}s`;
+
+        return timeSpent;
+
+    }
+
     get logSize() { return this._logSize; }
     set logSize(logSize) { this._logSize = logSize; }
 

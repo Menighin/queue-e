@@ -23,11 +23,18 @@ block content
                 ol.progress
             
             - var totalMili = process.finishedOn - process.progressHistory[0].timestamp
-            if process.status === 'finished'
-                .progress-history
-                    - for(var i = 0; i < process.progressHistory.length; i++) {
-                        - var percent = (i != process.progressHistory.length - 1 ? (process.progressHistory[i+1].timestamp - process.progressHistory[i].timestamp) / totalMili : (process.finishedOn - process.progressHistory[i].timestamp) / totalMili ) * 100
-                        .timeslice(class=`t${i+1}`, title = process.progressHistory[i].message, style=`width:${percent}%`)= process.progressHistory[i].message
+            - var start = new Date(process.progressHistory[0].timestamp)
+            - var end = new Date(process.finishedOn)
+            - var histories = process.progressHistory.filter(p => p.timestamp != null)
+            .progress-history
+                if process.status !== 'running' && process.status !== 'pending'
+                    span.start-time= `${start.getHours().toString().padStart('0', 2)}:${start.getMinutes().toString().padStart('0', 2)}:${start.getSeconds().toString().padStart('0', 2)}.${start.getMilliseconds().toString().padStart('0', 2)}` 
+                    span.time-spent= process.timeSpent
+                    span.end-time= `${end.getHours().toString().padStart('0', 2)}:${end.getMinutes().toString().padStart('0', 2)}:${end.getSeconds().toString().padStart('0', 2)}.${end.getMilliseconds().toString().padStart('0', 2)}` 
+
+                    - for(var i = 0; i < histories.length; i++) {
+                            - var percent = (i != histories.length - 1 ? (histories[i+1].timestamp - histories[i].timestamp) / totalMili : (process.finishedOn - histories[i].timestamp) / totalMili ) * 100
+                            .timeslice(class=`t${i+1}`, title = histories[i].message, style=`width:${percent}%`)= histories[i].message
                     - }
 
         ul.logs
@@ -69,11 +76,10 @@ block content
             let progress = div.querySelector('.info .progress-wrapper .progress');
 
             if (p.status !== 'running' && p.status !== 'pending') {
-
                 // Hides progress bar
-                //- progress.classList.add('hidden');
+                progress.classList.add('hidden');
+                showProgressHistory(p);
             }
-
 
             // Making the progress step bar
             if (p.progress && p.status === 'running') {
@@ -113,3 +119,48 @@ block content
                 });
             }
         });
+
+        function showProgressHistory(p) {
+            let div = document.querySelector('.progress-history');
+
+            let totalMili = p.finishedOn - p.progressHistory[0].timestamp
+            let start = new Date(p.progressHistory[0].timestamp)
+            let end = new Date(p.finishedOn)
+            let histories = p.progressHistory.filter(p => p.timestamp != null)
+
+            let startStr = `${start.getHours().toString().padStart('0', 2)}:${start.getMinutes().toString().padStart('0', 2)}:${start.getSeconds().toString().padStart('0', 2)}.${start.getMilliseconds().toString().padStart('0', 2)}`;
+            let endStr = `${end.getHours().toString().padStart('0', 2)}:${end.getMinutes().toString().padStart('0', 2)}:${end.getSeconds().toString().padStart('0', 2)}.${end.getMilliseconds().toString().padStart('0', 2)}`
+
+            let timeSpent = '';
+            let diff = end - start;
+            if (diff >= 1000 * 60 * 60) { // more than hours
+                timeSpent += `${parseInt(diff / (1000 * 60 * 60)).toString().padStart('0', 2)}h`;
+                diff -= parseInt(diff / (1000 * 60 * 60));
+            }
+
+            if (diff >= 1000 * 60) { // more than minutes
+                timeSpent += `${parseInt(diff / (1000 * 60)).toString().padStart('0', 2)}m`;
+                diff -= parseInt(diff / (1000 * 60));
+            }
+
+            timeSpent += `${parseInt(diff / 1000).toString().padStart('0', 2)}s`;
+
+            div.innerHTML = `
+                <span class="start-time">${startStr}</span>
+                <span class="time-spent">${timeSpent}</span>
+                <span class="end-time">${endStr}</span>
+            `; 
+
+            for (let i = 0; i < histories.length; i++) {
+                let timeslice = document.createElement('div');
+                timeslice.classList.add('timeslice', `t${i + 1}`);
+                timeslice.innerHTML = histories[i].message;
+                timeslice.title = histories[i].message;
+                timeslice.style.width = `${(i != histories.length - 1 ? (histories[i+1].timestamp - histories[i].timestamp) / totalMili : (p.finishedOn - histories[i].timestamp) / totalMili ) * 100}%`
+                
+                div.appendChild(timeslice);
+            }
+
+            div.classList.add('active');
+
+        }
