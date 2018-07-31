@@ -29,9 +29,9 @@ block content
                     - var end = new Date(process.finishedOn)
                     - var histories = process.progressHistory.filter(p => p.timestamp != null)
 
-                    span.start-time= `${start.getHours().toString().padStart('0', 2)}:${start.getMinutes().toString().padStart('0', 2)}:${start.getSeconds().toString().padStart('0', 2)}.${start.getMilliseconds().toString().padStart('0', 2)}` 
+                    span.start-time= `${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}:${start.getSeconds().toString().padStart(2, '0')}.${start.getMilliseconds().toString().padStart(2, '0')}` 
                     span.time-spent= process.timeSpent
-                    span.end-time= `${end.getHours().toString().padStart('0', 2)}:${end.getMinutes().toString().padStart('0', 2)}:${end.getSeconds().toString().padStart('0', 2)}.${end.getMilliseconds().toString().padStart('0', 2)}` 
+                    span.end-time= `${end.getHours().toString().padStart(2, '0')}:${end.getMinutes().toString().padStart(2, '0')}:${end.getSeconds().toString().padStart(2, '0')}.${end.getMilliseconds().toString().padStart(2, '0')}` 
 
                     - for(var i = 0; i < histories.length; i++) {
                             - var percent = (i != histories.length - 1 ? (histories[i+1].timestamp - histories[i].timestamp) / totalMili : (process.finishedOn - histories[i].timestamp) / totalMili ) * 100
