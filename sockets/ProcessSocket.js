@@ -39,7 +39,7 @@ export default class QueueSocket {
             id: process.id,
             log: {
                 timestamp: log.substring(0, 21),
-                message: log.replace(logType, '').substring(22), 
+                message: log.replace(logType, '').substring(21), 
                 type: logType === null ? null : logType.replace(/[\[\]]/g,'').toLowerCase()
             },
         };

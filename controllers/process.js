@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
             let logType = LogService.getLogTypeFrom(l);
             logs.push({
                 timestamp: l.substring(0, 21),
-                message: l.replace(logType, '').substring(22), 
+                message: l.replace(logType, '').substring(21), 
                 type: logType === null ? null : logType.replace(/[\[\]]/g,'').toLowerCase()
             });
         });
